@@ -29,7 +29,7 @@ public class User {
     @OneToMany(mappedBy = "user", fetch = FetchType.LAZY,
             cascade = CascadeType.ALL)
     @JsonManagedReference
-    private ArrayList<CartItems> cart;
+    private ArrayList<CartItem> cart;
 
 
 

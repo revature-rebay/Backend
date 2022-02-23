@@ -7,6 +7,7 @@ import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name = "user_tbl")
@@ -26,10 +27,11 @@ public class User {
     private String firstName;
     private String lastName;
     private int roleId;
-//    @OneToMany(mappedBy = "user", fetch = FetchType.LAZY,
-//            cascade = CascadeType.ALL)
-//    @JsonManagedReference
-//    private ArrayList<CartItems> cart;
+    @OneToMany  (
+            fetch = FetchType.LAZY,
+            cascade = CascadeType.ALL)
+    @JsonManagedReference
+    private List<CartItem> cart;
 
 
 

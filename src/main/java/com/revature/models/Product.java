@@ -25,7 +25,7 @@ public class Product {
 
     @Column(name = "featured_product")
     private boolean featuredProduct;
-    @Column(name = "product_id")
+    @Column(name = "current_stock")
     private int currentStock;
 
     //Images can be byte arrays or url links for s3 images

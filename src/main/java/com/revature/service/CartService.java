@@ -27,7 +27,7 @@ public class CartService {
 
     public ArrayList<CartItem> addToCart(CartDTO item){
 
-        return null;
+        return new ArrayList<>();
     }
 
     public ArrayList<CartItem> updateProductQuantity(CartDTO item){

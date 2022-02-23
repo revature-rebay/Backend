@@ -4,6 +4,7 @@ import com.revature.models.CartDTO;
 import com.revature.models.CartItem;
 import com.revature.models.Product;
 import com.revature.models.User;
+import com.revature.repo.ProductDAO;
 import com.revature.repo.UserDAO;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -24,6 +25,9 @@ public class CartServiceTest {
     @Mock
     private UserDAO userDao;
     private User user = new User();
+    @Mock
+    private ProductDAO productDAO;
+    private Product product = new Product();
 
     @BeforeEach
     public void setUp(){
@@ -42,8 +46,11 @@ public class CartServiceTest {
 
         user.setCart(Arrays.asList(item1, item2));
         MockitoAnnotations.openMocks(this);
-        service = new CartService(userDao);
+        service = new CartService(userDao, productDAO);
         Mockito.when(userDao.findById(1)).thenReturn(Optional.of(user));
+
+        Mockito.when(productDAO.findById(1)).thenReturn(Optional.of(product1));
+        Mockito.when(productDAO.findById(2)).thenReturn(Optional.of(product2));
     }
 
     @Test
@@ -114,7 +121,12 @@ public class CartServiceTest {
     public void testDeletePass(){
         //Test deleting first product
         List<CartItem> cart = service.deleteFromCart(new CartDTO(1,1,1));
+        cart.forEach(cartItem -> {
+            System.out.println(cartItem);
+        });
         assertTrue(cart.size() == 1);
+        assertEquals(150.0, cart.get(0).getProduct().getProductPrice());
+
 
         //Test remaining item is the second product
         assertEquals(150.0, cart.get(0).getProduct().getProductPrice());
@@ -122,17 +134,17 @@ public class CartServiceTest {
 
     @Test
     public void testDeleteFail(){
-        //Test invalid user Id
-        List<CartItem> cart = service.deleteFromCart(new CartDTO(-1,1,1));
-        assertTrue(cart.size() == 2);
-        assertEquals(50.0, cart.get(0).getProduct().getProductPrice());
-        assertEquals(150.0, cart.get(1).getProduct().getProductPrice());
-
         //Test invalid product Id
         List<CartItem> cart2 = service.deleteFromCart(new CartDTO(1,-1,1));
         assertTrue(cart2.size() == 2);
         assertEquals(50.0, cart2.get(0).getProduct().getProductPrice());
         assertEquals(150.0, cart2.get(1).getProduct().getProductPrice());
+    }
+
+    @Test void testDeleteFailBadUserId(){
+        //Test invalid user Id
+        List<CartItem> cart = service.deleteFromCart(new CartDTO(-1,1,1));
+        assertTrue(cart.size() == 0);
     }
 
     @Test

@@ -23,8 +23,9 @@ public class CartService {
     }
 
     @Autowired
-    public CartService(UserDAO userDAO) {
+    public CartService(UserDAO userDAO, ProductDAO productDAO) {
         this.userDAO = userDAO;
+        this.productDAO = productDAO;
     }
 
 
@@ -45,21 +46,28 @@ public class CartService {
         return new ArrayList<>();
     }
 
-    public ArrayList<CartItem> deleteFromCart(CartDTO item){
+    public List<CartItem> deleteFromCart(CartDTO item){
+        //Get the User and cartItems List to modify
         Optional<User> userOptional = userDAO.findById(item.userId);
         if(!userOptional.isPresent()){
             return new ArrayList<>();
         }
-
-//        Optional<Product> productOptional =
-
         User user = userOptional.get();
-        List<CartItem> cartItems = user.getCart();
-        user.setCart(cartItems);
+        ArrayList<CartItem> cartItems = new ArrayList<>(user.getCart());
 
+        //Get the product to remove
+        Optional<Product> productOptional = productDAO.findById(item.productId);
+        if(!productOptional.isPresent()){
+            return cartItems;
+        }
+        Product product = productOptional.get();
+        CartItem cartItem = new CartItem(0,0, product);
+
+        cartItems.remove(cartItem);
+        user.setCart(cartItems);
         userDAO.save(user);
 
-        return null;
+        return cartItems;
     }
 
     public boolean clearCart(int userId){

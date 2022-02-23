@@ -1,7 +1,5 @@
 package com.revature.models;
 
-import org.springframework.beans.factory.annotation.Autowired;
-
 import javax.persistence.*;
 import java.util.Arrays;
 import java.util.Objects;

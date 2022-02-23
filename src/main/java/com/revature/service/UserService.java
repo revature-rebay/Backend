@@ -11,25 +11,22 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public class UserService {
 
+    //DAO object, required field
     private final UserDAO userDAO;
 
-
+    //returns user associated with a certain id or null if no one with that id exists
     public User getUser(int id){
         return userDAO.findById(id).orElse(null);
-
     }
 
     public boolean saveUser(User user){
 
-        try{
-            String pw_hash = BCrypt.hashpw(user.getPassWord(), BCrypt.gensalt());
-            user.setPassWord(pw_hash);
+        if(user!=null){
+            user.setPassWord(BCrypt.hashpw(user.getPassWord(), BCrypt.gensalt()));
             userDAO.save(user);
-        }catch(Exception e){
-            e.printStackTrace();
-            return false;
+            return true;
         }
-        return true;
+        return false;
 
         }
 

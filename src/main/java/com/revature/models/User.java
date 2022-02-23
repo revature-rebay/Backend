@@ -33,19 +33,19 @@ public class User {
     @JsonManagedReference
     private List<CartItem> cart;
 
-    public User() {
-    }
+//    public User() {
+//    }
 
-    public User(int id, String userName, String passWord, String email, String firstName, String lastName, int roleId, List<CartItem> cart) {
-        this.id = id;
-        this.userName = userName;
-        this.passWord = passWord;
-        this.email = email;
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.roleId = roleId;
-        this.cart = cart;
-    }
+//    public User(int id, String userName, String passWord, String email, String firstName, String lastName, int roleId, List<CartItem> cart) {
+//        this.id = id;
+//        this.userName = userName;
+//        this.passWord = passWord;
+//        this.email = email;
+//        this.firstName = firstName;
+//        this.lastName = lastName;
+//        this.roleId = roleId;
+//        this.cart = cart;
+//    }
 
     public int getId() {
         return id;

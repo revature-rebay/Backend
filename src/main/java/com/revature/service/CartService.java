@@ -22,7 +22,6 @@ public class CartService {
     }
 
     public ArrayList<CartItem> getCart(int userId){
-
         return null;
     }
 

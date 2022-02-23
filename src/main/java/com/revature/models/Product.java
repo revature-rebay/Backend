@@ -9,5 +9,5 @@ public class Product {
     @Id
     private int productId;
 
-    
+
 }

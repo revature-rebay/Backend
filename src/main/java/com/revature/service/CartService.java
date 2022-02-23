@@ -32,7 +32,6 @@ public class CartService {
     public List<CartItem> getCart(int userId){
         Optional<User> user = userDAO.findById(userId);
         if(user.isPresent()) return user.get().getCart();
-
         return new ArrayList<>();
     }
 

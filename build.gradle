@@ -28,6 +28,11 @@ dependencies {
 	annotationProcessor 'org.projectlombok:lombok'
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 	implementation group: 'org.springframework.security', name: 'spring-security-core', version: '5.6.1'
+	// https://mvnrepository.com/artifact/org.mockito/mockito-junit-jupiter
+	testImplementation group: 'org.mockito', name: 'mockito-junit-jupiter', version: '4.2.0'
+	testImplementation 'org.junit.jupiter:junit-jupiter-engine:5.2.0'
+
+
 
 }
 

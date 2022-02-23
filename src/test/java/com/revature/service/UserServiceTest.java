@@ -13,14 +13,16 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
+import java.util.Optional;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 //@ExtendWith(MockitoExtension.class)
 //@SpringBootTest
 class UserServiceTest {
     @Mock
-    private UserDAO userDAO;
-//            = Mockito.mock(UserDAO.class);
+    private UserDAO userDAO
+            = Mockito.mock(UserDAO.class);
 //    @InjectMocks
     private UserService userService;
 
@@ -32,12 +34,15 @@ class UserServiceTest {
         testUser = new User(
                 1,
                 "eliasc81",
-                "password",
+                "$2a$10$2yhPCSH8dCFS0leAii91EeFoD13fODU6Kgk5KBcuIhcLyNizRO9Lq\n",
                 "me@me.com",
                 "Elias",
                 "Calagiu",
                 1
         );
+        userService= new UserService(userDAO);
+        Mockito.when(userDAO.findByUserName(testUser.getUserName())).thenReturn(testUser);
+        Mockito.when(userDAO.findById(testUser.getId())).thenReturn(Optional.ofNullable(testUser));
     }
 
     @Test

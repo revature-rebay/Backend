@@ -1,6 +1,7 @@
 package com.revature.models;
 
 import javax.persistence.*;
+import java.util.Objects;
 
 @Entity
 @Table(name = "cart_item")
@@ -66,4 +67,28 @@ public class CartItem {
 //    public void setUser(User user) {
 //        this.user = user;
 //    }
+
+
+    //Two cart items are equivalent if they both hold a product variable with the same product Id
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        CartItem cartItem = (CartItem) o;
+        return this.product.getProductId() == cartItem.product.getProductId();
+    }
+
+    @Override
+    public String toString() {
+        return "CartItem{" +
+                "id=" + id +
+                ", quantity=" + quantity +
+                ", product=" + product.getProductId() +
+                '}';
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(product);
+    }
 }

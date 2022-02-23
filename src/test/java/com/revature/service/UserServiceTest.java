@@ -1,5 +1,6 @@
 package com.revature.service;
 
+import com.revature.models.CartItem;
 import com.revature.models.User;
 import com.revature.repo.UserDAO;
 import org.junit.jupiter.api.BeforeEach;
@@ -13,6 +14,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
+import java.util.ArrayList;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -38,7 +40,8 @@ class UserServiceTest {
                 "me@me.com",
                 "Elias",
                 "Calagiu",
-                1
+                1,
+                new ArrayList<CartItem>()
         );
 
     }

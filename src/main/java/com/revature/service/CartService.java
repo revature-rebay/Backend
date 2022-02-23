@@ -31,8 +31,13 @@ public class CartService {
     }
 
     public ArrayList<CartItem> updateProductQuantity(CartDTO item){
-
-        return null;
+        if(item.productId < 1 || item.userId < 1 || item.quantity > 99){
+            System.out.println("Error, invalid input in update Quantity.");
+            return new ArrayList<>();
+        }
+        if(userDAO.setCartItemQuantityByUserId(item.quantity, item.userId, item.productId))
+            return userDAO.getCart(item);
+        return new ArrayList<>();
     }
 
     public ArrayList<CartItem> deleteFromCart(CartDTO item){

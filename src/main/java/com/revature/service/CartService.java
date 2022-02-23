@@ -35,9 +35,30 @@ public class CartService {
         return new ArrayList<>();
     }
 
-    public ArrayList<CartItem> addToCart(CartDTO item){
+    public List<CartItem> addToCart(CartDTO item){
+        //User
+        Optional<User> userOptional = userDAO.findById(item.userId);
+        if(!userOptional.isPresent()){
+            return new ArrayList<>();
+        }
+        User user = userOptional.get();
+        ArrayList<CartItem> cartItems = new ArrayList<>(user.getCart());
+        //Product
+        Optional<Product> productOptional = productDAO.findById(item.productId);
+        if(!productOptional.isPresent()){
+            return new ArrayList<>();
+        }
+        Product product = productOptional.get();
+        CartItem cartItem = new CartItem(0,0,product);
 
-        return new ArrayList<>();
+        //adding
+        cartItems.add(cartItem);
+        user.setCart(cartItems);
+        userDAO.save(user);
+
+
+        return cartItems;
+
     }
 
     public List<CartItem> updateProductQuantity(CartDTO item){

@@ -79,7 +79,12 @@ public class CartServiceTest {
     @Test
     public void testAddToCartSuccess(){
         List<CartItem> cart = service.addToCart(new CartDTO(1,1,1));
+        cart.forEach(cartItem -> {
+            System.out.println(cartItem);
+        });
         assertTrue(cart.size() == 3);
+        assertEquals(50.0, cart.get(0).getProduct().getProductPrice());
+
     }
 
     @Test

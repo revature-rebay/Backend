@@ -34,7 +34,11 @@ public class CartController {
 
     @PostMapping("/add")
     public ResponseEntity<List<CartItem>> addToCart(@RequestBody CartDTO cartDTO) {
-        return ResponseEntity.status(201).build();
+        List<CartItem> cartList = service.addToCart(cartDTO);
+        if (cartList.isEmpty()){
+            return ResponseEntity.notFound().build();
+        }
+        return ResponseEntity.status(200).body(cartList);
     }
 
     @PutMapping("/update")

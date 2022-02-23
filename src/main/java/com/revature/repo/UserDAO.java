@@ -10,9 +10,4 @@ import java.util.List;
 
 public interface UserDAO extends JpaRepository<User, Integer> {
     User findByUserName(String userName);
-
-    @Modifying
-    @Query("update CartItem c set c.quantity = ?1, where c.userId = ?2 and c.productId = ?3")
-    boolean setCartItemQuantityByUserId(int quantity, Integer userId, Integer productId);
-
 }

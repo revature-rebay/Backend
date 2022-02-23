@@ -156,8 +156,7 @@ public class CartServiceTest {
     @Test
     public void updateProductQuantityFail(){
         List<CartItem> cart = service.updateProductQuantity(new CartDTO(1,1,-1));
-        assertTrue(cart.size() == 2);
-        assertEquals(1, cart.get(1).getQuantity());
+        assertTrue(cart.size() == 0);
 
         List<CartItem> cart2 = service.updateProductQuantity(new CartDTO(0,1,2));
         assertTrue(cart2.size() == 0);

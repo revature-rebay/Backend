@@ -41,18 +41,31 @@ public class CartService {
 
     public List<CartItem> updateProductQuantity(CartDTO item){
 
-        if(item.productId < 1 || item.userId < 1 || item.quantity > 99){
+        if(item.productId < 1 || item.userId < 1 || item.quantity > 99 || item.quantity < 0){
             System.out.println("Error, invalid input in update Quantity.");
             return new ArrayList<>();
         }
-        if(userDAO.setCartItemQuantityByUserId(item.quantity, item.userId, item.productId))
-        {
-            System.out.println("Returning cart from user " + item.userId);
-            return getCart(item.userId);
+        if(item.quantity == 0)
+            deleteFromCart(item);
+
+        Optional<User> userOptional = userDAO.findById(item.userId);
+
+        if(!userOptional.isPresent()){
+            return new ArrayList<>();
         }
 
-
-        return new ArrayList<>();
+        User user = userOptional.get();
+        List<CartItem> cartItems = user.getCart();
+        for(int i = 0; i < cartItems.size()-1; i++)
+        {
+            if(cartItems.get(i).getProduct().getProductId() == item.productId)
+            {
+                cartItems.get(i).setQuantity(item.quantity);
+            }
+        }
+        user.setCart(cartItems);
+        userDAO.save(user);
+        return(user.getCart());
     }
 
     public ArrayList<CartItem> deleteFromCart(CartDTO item){

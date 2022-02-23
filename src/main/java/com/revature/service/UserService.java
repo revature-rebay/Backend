@@ -24,7 +24,6 @@ public class UserService {
         try{
             String pw_hash = BCrypt.hashpw(user.getPassWord(), BCrypt.gensalt());
             user.setPassWord(pw_hash);
-            System.out.println(pw_hash);
             userDAO.save(user);
         }catch(Exception e){
             e.printStackTrace();
@@ -44,8 +43,8 @@ public class UserService {
 //
 //        // Checks if account exists
         User u = userDAO.findByUserName(userName);
-        System.out.println(u.getPassWord());
 //        // User doesn't exist
+
         if (u == null) {
 
             return null;
@@ -55,7 +54,7 @@ public class UserService {
 
             return u;
         }
-        return u;
+        return null;
 
     }
 

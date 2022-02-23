@@ -36,7 +36,7 @@ class UserServiceTest {
         testUser = new User(
                 1,
                 "eliasc81",
-                "$2a$10$2yhPCSH8dCFS0leAii91EeFoD13fODU6Kgk5KBcuIhcLyNizRO9Lq\n",
+                "$2a$10$2yhPCSH8dCFS0leAii91EeFoD13fODU6Kgk5KBcuIhcLyNizRO9Lq",
                 "me@me.com",
                 "Elias",
                 "Calagiu",
@@ -68,4 +68,32 @@ class UserServiceTest {
         User user = userService.validateAccount(testUser.getUserName(), "password");
         assertEquals(user, testUser);
     }
+
+    @Test
+    void getUserFail(){
+        Mockito.when(userDAO.findById(-1)).thenReturn(Optional.ofNullable(null));
+        User user = userService.getUser(-1);
+        assertNull(user);
+    }
+
+    @Test
+    void validateFailUsername(){
+        Mockito.when(userDAO.findByUserName("blah")).thenReturn(null);
+        User user = userService.validateAccount("blah", "password");
+        assertNull(user);
+    }
+
+    @Test
+    void validateFailPassword(){
+        Mockito.when(userDAO.findByUserName(testUser.getUserName())).thenReturn(testUser);
+        User user = userService.validateAccount(testUser.getUserName(), "assword");
+        assertNull(user);
+    }
+
+    @Test
+    void saveUserFail() {
+        boolean savedUser= userService.saveUser(null);
+        assertFalse(savedUser);
+    }
+
 }

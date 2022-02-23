@@ -36,6 +36,7 @@ public class CartService {
     }
 
     public List<CartItem> addToCart(CartDTO item){
+
         //User
         Optional<User> userOptional = userDAO.findById(item.userId);
         if(!userOptional.isPresent()){
@@ -46,10 +47,14 @@ public class CartService {
         //Product
         Optional<Product> productOptional = productDAO.findById(item.productId);
         if(!productOptional.isPresent()){
-            return new ArrayList<>();
+            return cartItems;
         }
         Product product = productOptional.get();
         CartItem cartItem = new CartItem(0,0,product);
+        if(item.quantity >99 || item.quantity<0){
+            System.out.println("Invalid Quantity.");
+            return cartItems;
+        }
 
         //adding
         cartItems.add(cartItem);

@@ -92,16 +92,11 @@ public class CartServiceTest {
 
         //Test empty object
         List<CartItem> cart = service.addToCart(new CartDTO());
-        assertTrue(cart.size() == 2);
-
-        assertEquals(50.0, cart.get(0).getProduct().getProductPrice());
-        assertEquals(150.0, cart.get(1).getProduct().getProductPrice());
+        assertTrue(cart.size() == 0);
 
         //Test invalid user id
         List<CartItem> cart2 = service.addToCart(new CartDTO(-1, 1, 1));
-        assertTrue(cart2.size() == 2);
-        assertEquals(50.0, cart2.get(0).getProduct().getProductPrice());
-        assertEquals(150.0, cart2.get(1).getProduct().getProductPrice());
+        assertTrue(cart2.size() == 0);
 
         //test invalid item id
         List<CartItem> cart3 = service.addToCart(new CartDTO(1, -1, 1));

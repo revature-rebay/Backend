@@ -26,10 +26,10 @@ public class User {
     private String firstName;
     private String lastName;
     private int roleId;
-    @OneToMany(mappedBy = "user", fetch = FetchType.LAZY,
-            cascade = CascadeType.ALL)
-    @JsonManagedReference
-    private ArrayList<CartItems> cart;
+//    @OneToMany(mappedBy = "user", fetch = FetchType.LAZY,
+//            cascade = CascadeType.ALL)
+//    @JsonManagedReference
+//    private ArrayList<CartItems> cart;
 
 
 

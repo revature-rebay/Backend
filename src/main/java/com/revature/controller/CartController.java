@@ -43,13 +43,21 @@ public class CartController {
     }
 
     @DeleteMapping("/delete")
-    public ResponseEntity deleteFromCart(@RequestBody CartDTO cartDTO) {
-        return ResponseEntity.status(200).build();
+    public ResponseEntity<List<CartItem>> deleteFromCart(@RequestBody CartDTO cartDTO) {
+        List<CartItem> cartItems = service.deleteFromCart(cartDTO);
+        if(cartItems.isEmpty()){
+            return ResponseEntity.badRequest().build();
+        }
+        return ResponseEntity.status(200).body(cartItems);
     }
 
     @DeleteMapping("/{userId}")
     public ResponseEntity clearCart(@PathVariable("userId") int userId) {
-        return ResponseEntity.status(200).build();
+        if(service.clearCart(userId)){
+            return ResponseEntity.status(200).build();
+        }
+        return ResponseEntity.badRequest().build();
+
     }
 
 

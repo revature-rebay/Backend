@@ -47,14 +47,14 @@ class UserServiceTest {
     }
 
     @Test
-    void saveUser() {
+    void saveUserSuccess() {
         boolean savedUser= userService.saveUser(testUser);
         assertTrue(savedUser);
     }
 
 
     @Test
-    void getUser() {
+    void getUserSuccess() {
         Mockito.when(userDAO.findById(testUser.getId())).thenReturn(Optional.ofNullable(testUser));
         User user = userService.getUser(testUser.getId());
         assertEquals(user, testUser);
@@ -63,7 +63,7 @@ class UserServiceTest {
 
 
     @Test
-    void validateAccount() {
+    void validateAccountSuccess() {
         Mockito.when(userDAO.findByUserName(testUser.getUserName())).thenReturn(testUser);
         User user = userService.validateAccount(testUser.getUserName(), "password");
         assertEquals(user, testUser);

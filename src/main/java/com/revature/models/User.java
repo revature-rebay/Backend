@@ -27,7 +27,10 @@ public class User {
     private String firstName;
     private String lastName;
     private int roleId;
-
+    @OneToMany  (
+            fetch = FetchType.LAZY,
+            cascade = CascadeType.ALL)
+    private List<CartItem> cart;
 
 
 

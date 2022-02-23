@@ -3,6 +3,7 @@ package com.revature.controller;
 import com.revature.models.User;
 import com.revature.service.UserService;
 import com.revature.utils.Cookies;
+import lombok.RequiredArgsConstructor;
 import org.apache.tomcat.util.net.openssl.ciphers.Encryption;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
@@ -14,15 +15,10 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @CrossOrigin(origins = "http://localhost:4200", allowCredentials = "true")
 @RequestMapping("/user")
+@RequiredArgsConstructor
 public class UserController {
 
-    private UserService userService;
-
-
-    @Autowired
-    public UserController(UserService userService) {
-        this.userService = userService;
-    }
+    private final UserService userService;
 
     @GetMapping("/{id}")
     public ResponseEntity<User> getUserById(@CookieValue(name = "rebay_User") String cookie,

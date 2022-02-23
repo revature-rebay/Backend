@@ -30,7 +30,6 @@ public class User {
     @OneToMany  (
             fetch = FetchType.LAZY,
             cascade = CascadeType.ALL)
-    @JsonManagedReference
     private List<CartItem> cart;
 
 

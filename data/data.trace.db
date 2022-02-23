@@ -1,0 +1,8 @@
+2022-02-23 12:25:34 jdbc[13]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Syntax error in SQL statement "SHOW COLUMNS FROM USER_TBL
+SHOW[*] ROWS FROM USER_TBL"; SQL statement:
+SHOW COLUMNS from USER_TBL
+SHOW ROWS from USER_TBL [42000-200]
+2022-02-23 12:25:41 jdbc[13]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Syntax error in SQL statement "SHOW ROWS[*] FROM USER_TBL"; SQL statement:
+SHOW ROWS from USER_TBL [42000-200]

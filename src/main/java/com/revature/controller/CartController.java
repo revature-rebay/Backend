@@ -39,7 +39,12 @@ public class CartController {
 
     @PutMapping("/update")
     public ResponseEntity<List<CartItem>> updateProductQuantity(@RequestBody CartDTO cartDTO) {
-        return ResponseEntity.status(200).build();
+        List<CartItem> list = service.updateProductQuantity(cartDTO);
+        if(list.isEmpty())
+        {
+            return ResponseEntity.status(204).build();
+        }
+        return ResponseEntity.status(200).body(list);
     }
 
     @DeleteMapping("/delete")

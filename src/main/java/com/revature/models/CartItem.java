@@ -8,6 +8,7 @@ import java.util.Objects;
 public class CartItem {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "cart_item_id")
     private int id;
 
@@ -29,6 +30,10 @@ public class CartItem {
 //        this.user = user;
 //    }
 
+    public CartItem(int quantity, Product product) {
+        this.quantity = quantity;
+        this.product = product;
+    }
 
     public CartItem(int id, int quantity, Product product) {
         this.id = id;

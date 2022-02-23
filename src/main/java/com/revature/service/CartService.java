@@ -50,7 +50,7 @@ public class CartService {
             return cartItems;
         }
         Product product = productOptional.get();
-        CartItem cartItem = new CartItem(0,0,product);
+        CartItem cartItem = new CartItem(item.quantity, product);
         if(item.quantity >99 || item.quantity<0){
             System.out.println("Invalid Quantity.");
             return cartItems;

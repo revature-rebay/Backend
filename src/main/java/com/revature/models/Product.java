@@ -14,6 +14,8 @@ public class Product {
     private int productId;
     @Column(name = "product_price")
     private double productPrice;
+    @Column(name = "product_name")
+    private String productName;
 
     //Not sure how the sales team wants to handle sales
     //Could have the admin decide the specific amount, or select an enum with a value associated with it, etc.

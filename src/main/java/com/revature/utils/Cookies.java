@@ -21,7 +21,7 @@ public class Cookies {
             objectOutputStream.writeObject(user);
             objectOutputStream.close();
 
-            return ResponseCookie.from("upNext_user",
+            return ResponseCookie.from("rebay_User",
                             Base64.getEncoder().encodeToString(byteArrayOutputStream.toByteArray()))
                     .maxAge(7 * 24 * 60 * 60)
                     .build();

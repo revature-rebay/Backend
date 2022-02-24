@@ -3,6 +3,7 @@ package com.revature.controller;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.revature.models.User;
 import com.revature.service.UserService;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import org.mockito.ArgumentCaptor;
@@ -11,6 +12,7 @@ import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.MvcResult;
 
 import java.util.ArrayList;
 
@@ -35,19 +37,32 @@ class UserControllerTest {
     @Autowired
     private ObjectMapper objectMapper;
 
+    User user;
+
+    @BeforeEach
+    void init(){
+        user = new User(1, "flodev", "password", "email@email.com", "Eric", "Florence", 1, new ArrayList<>());
+    }
+
     @Test
     void getUserById() throws Exception {
-        mockMvc.perform(get("/user/{id}"));
+        when(userService.getUser(1)).thenReturn(user);
+        MvcResult result = mockMvc.perform(get("/user/1").contentType("application/json"))
+                .andExpect(status().isOk())
+                .andReturn();
+
+        String content = result.getResponse().getContentAsString();
+
+        assertThat(content).isEqualTo(objectMapper.writeValueAsString(user));
     }
 
     @Test
     void getCurrentUser() {
+
     }
 
     @Test
     void createUser() throws Exception {
-
-        User user = new User(1, "flodev", "password", "email@email.com", "Eric", "Florence", 1, new ArrayList<>());
         when(userService.saveUser(user)).thenReturn(true);
         mockMvc.perform(post("/user").contentType("application/json").content(objectMapper.writeValueAsString(user))).andExpect(status().isCreated());
 
@@ -58,10 +73,22 @@ class UserControllerTest {
     }
 
     @Test
-    void loginRequest() {
+    void loginRequest() throws Exception {
+        when(userService.validateAccount(user.getUserName(), user.getPassWord())).thenReturn(user);
+        MvcResult result = mockMvc.perform(post("/user/login")
+                        .contentType("application/json")
+                        .content(objectMapper.writeValueAsString(user)))
+                .andExpect(status().isOk())
+                .andReturn();
+
+        String content = result.getResponse().getContentAsString();
+        assertThat(content).isEqualTo(objectMapper.writeValueAsString(user));
     }
 
     @Test
-    void logoutUser() {
+    void logoutUser() throws Exception {
+        mockMvc.perform(post("/user/logout").contentType("application/json"))
+                .andExpect(status().isOk());
+
     }
 }

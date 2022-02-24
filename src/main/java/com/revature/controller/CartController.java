@@ -4,16 +4,18 @@ import com.revature.models.CartDTO;
 import com.revature.models.CartItem;
 import com.revature.service.CartService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletResponse;
 import javax.xml.ws.Response;
 import java.util.ArrayList;
 import java.util.List;
 
 @RestController
 @RequestMapping("/cart")
-@CrossOrigin(value ="http://localhost:4200")
+@CrossOrigin(value ="http://localhost:4200", allowCredentials = "true")
 public class CartController {
     private CartService service;
 
@@ -67,6 +69,16 @@ public class CartController {
         }
         return ResponseEntity.badRequest().build();
 
+    }
+
+    @RequestMapping(name="/*", method = RequestMethod.OPTIONS)
+    public ResponseEntity options(HttpServletResponse response) {
+
+        HttpHeaders headers = new HttpHeaders();
+        headers.add("Access-Control-Allow-Methods","GET,HEAD,POST, PUT, DELETE");
+        headers.add("Allow", "HEAD,GET,PUT,POST, DELETE, OPTIONS");
+        headers.add("Access-Control-Allow-Origin","*");
+        return ResponseEntity.status(200).headers(headers).build();
     }
 
 

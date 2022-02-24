@@ -7,6 +7,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCrypt;
 import org.springframework.stereotype.Service;
 
+import javax.xml.transform.Result;
+import java.sql.SQLException;
+
 @Service
 @RequiredArgsConstructor
 public class UserService {
@@ -20,14 +23,14 @@ public class UserService {
     }
 
     public boolean saveUser(User user){
+            if(user!=null){
+                user.setRoleId(2);//sets newly registered user to user/customer role
+                user.setPassWord(BCrypt.hashpw(user.getPassWord(), BCrypt.gensalt()));
+                userDAO.save(user);
+                return true;
+            }
 
-        if(user!=null){
-            user.setPassWord(BCrypt.hashpw(user.getPassWord(), BCrypt.gensalt()));
-            userDAO.save(user);
-            return true;
-        }
         return false;
-
         }
 
 

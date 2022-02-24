@@ -44,7 +44,7 @@ public class CartServiceTest {
         CartItem item1 = new CartItem(1,1, product1, user);
         CartItem item2 = new CartItem(2,2, product2, user);
 
-        user.setCart(Arrays.asList(item1, item2));
+        user.setCart(new ArrayList<>(Arrays.asList(item1, item2)));
         MockitoAnnotations.openMocks(this);
         service = new CartService(userDao, productDAO);
         Mockito.when(userDao.findById(1)).thenReturn(Optional.of(user));

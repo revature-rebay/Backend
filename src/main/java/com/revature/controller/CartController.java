@@ -53,7 +53,7 @@ public class CartController {
         return ResponseEntity.status(200).body(list);
     }
 
-    @PutMapping("/delete")
+    @DeleteMapping("/delete")
     public ResponseEntity<List<CartItem>> deleteFromCart(@RequestBody CartDTO cartDTO) {
         List<CartItem> cartItems = service.deleteFromCart(cartDTO);
         if(cartItems.isEmpty()){
@@ -71,7 +71,7 @@ public class CartController {
 
     }
 
-    @RequestMapping(name="/*", method = RequestMethod.OPTIONS)
+    @RequestMapping(name="/delete", method = RequestMethod.OPTIONS)
     public ResponseEntity options(HttpServletResponse response) {
 
         HttpHeaders headers = new HttpHeaders();

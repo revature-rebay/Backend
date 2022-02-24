@@ -50,20 +50,16 @@ public class CartService {
             return cartItems;
         }
         Product product = productOptional.get();
-        CartItem cartItem = new CartItem(item.quantity, product);
+        CartItem cartItem = new CartItem(item.quantity, product, user);
         if(item.quantity >99 || item.quantity<0){
             System.out.println("Invalid Quantity.");
             return cartItems;
         }
 
         //adding
-        cartItems.add(cartItem);
-        user.setCart(cartItems);
+        user.addCartItem(cartItem);
         userDAO.save(user);
-
-
-        return cartItems;
-
+        return user.getCart();
     }
 
     public List<CartItem> updateProductQuantity(CartDTO item){
@@ -82,15 +78,7 @@ public class CartService {
         }
 
         User user = userOptional.get();
-        List<CartItem> cartItems = user.getCart();
-        for(int i = 0; i < cartItems.size()-1; i++)
-        {
-            if(cartItems.get(i).getProduct().getProductId() == item.productId)
-            {
-                cartItems.get(i).setQuantity(item.quantity);
-            }
-        }
-        user.setCart(cartItems);
+        user.updateCartItem(item);
         userDAO.save(user);
         return(user.getCart());
     }
@@ -110,13 +98,10 @@ public class CartService {
             return cartItems;
         }
         Product product = productOptional.get();
-        CartItem cartItem = new CartItem(0,0, product);
-
-        cartItems.remove(cartItem);
-        user.setCart(cartItems);
+        CartItem cartItem = new CartItem(0,0, product, user);
+        user.removeCartItem(cartItem);
         userDAO.save(user);
-
-        return cartItems;
+        return user.getCart();
     }
 
     public boolean clearCart(int userId){
@@ -126,7 +111,7 @@ public class CartService {
         }
 
         User user = userOptional.get();
-        user.setCart(new ArrayList<>());
+        user.clearCart();
         userDAO.save(user);
         return true;
     }

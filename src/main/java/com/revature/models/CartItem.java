@@ -1,5 +1,7 @@
 package com.revature.models;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 import javax.persistence.*;
 import java.util.Objects;
 
@@ -15,30 +17,28 @@ public class CartItem {
     private int quantity;
 
     @ManyToOne
+    @JoinColumn(name="product_id")
     private Product product;
 
-//    @ManyToOne
-//    private User user;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name="user_id")
+    @JsonBackReference
+    private User user;
 
     public CartItem() {
     }
 
-//    public CartItem(int id, int quantity, Product product, User user) {
-//        this.id = id;
-//        this.quantity = quantity;
-//        this.product = product;
-//        this.user = user;
-//    }
-
-    public CartItem(int quantity, Product product) {
-        this.quantity = quantity;
-        this.product = product;
-    }
-
-    public CartItem(int id, int quantity, Product product) {
+    public CartItem(int id, int quantity, Product product, User user) {
         this.id = id;
         this.quantity = quantity;
         this.product = product;
+        this.user = user;
+    }
+
+    public CartItem(int quantity, Product product, User user) {
+        this.quantity = quantity;
+        this.product = product;
+        this.user = user;
     }
 
     public int getId() {
@@ -65,13 +65,13 @@ public class CartItem {
         this.product = product;
     }
 
-//    public User getUser() {
-//        return user;
-//    }
-//
-//    public void setUser(User user) {
-//        this.user = user;
-//    }
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
 
 
     //Two cart items are equivalent if they both hold a product variable with the same product Id

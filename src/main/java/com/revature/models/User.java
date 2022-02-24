@@ -4,10 +4,13 @@ import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 @Entity
 @Table(name = "user_tbl")
@@ -27,25 +30,14 @@ public class User {
     private String firstName;
     private String lastName;
     private int roleId;
+    @OnDelete(action = OnDeleteAction.CASCADE)
     @OneToMany(
+            mappedBy = "user",
             fetch = FetchType.LAZY,
-            cascade = CascadeType.ALL)
+            cascade = CascadeType.ALL,
+            orphanRemoval = true)
     @JsonManagedReference
     private List<CartItem> cart;
-
-//    public User() {
-//    }
-
-//    public User(int id, String userName, String passWord, String email, String firstName, String lastName, int roleId, List<CartItem> cart) {
-//        this.id = id;
-//        this.userName = userName;
-//        this.passWord = passWord;
-//        this.email = email;
-//        this.firstName = firstName;
-//        this.lastName = lastName;
-//        this.roleId = roleId;
-//        this.cart = cart;
-//    }
 
     public int getId() {
         return id;
@@ -109,5 +101,24 @@ public class User {
 
     public void setCart(List<CartItem> cart) {
         this.cart = cart;
+    }
+
+    public void addCartItem(CartItem item) {
+        this.cart.add(item);
+    }
+    public void removeCartItem(CartItem item) {
+        this.cart.remove(item);
+    }
+    public void clearCart(){
+        this.cart.clear();
+    }
+    public void updateCartItem(CartDTO item){
+        this.cart.replaceAll(cartItem -> {
+            if(cartItem.getProduct().getProductId() == item.productId)
+            {
+                cartItem.setQuantity(item.quantity);
+            }
+            return cartItem;
+        });
     }
 }

@@ -82,7 +82,7 @@ public class CartServiceTest {
         cart.forEach(cartItem -> {
             System.out.println(cartItem);
         });
-        assertTrue(cart.size() == 3);
+        assertTrue(cart.size() == 2);
         assertEquals(50.0, cart.get(0).getProduct().getProductPrice());
 
     }

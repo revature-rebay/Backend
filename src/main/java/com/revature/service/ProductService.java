@@ -61,6 +61,39 @@ public class ProductService {
         return featuredProductList;
     }
 
+    public boolean addProduct(Product product){
+        if (!productDAO.existsById(product.getProductId())){
+            productDAO.save(product);
+            logger.info("Product was successfully saved in the database");
+            return true;
+        }else {
+            logger.error("There is already a product with that ID");
+            return false;
+        }
+    }
+
+    public boolean removeProduct(int id){
+        if (productDAO.existsById(id)){
+            productDAO.deleteById(id);
+            logger.info("Product was successfully deleted from the database");
+            return true;
+        }else {
+            logger.error("Product was not found");
+            return false;
+        }
+    }
+
+    public boolean updateProduct(Product product){
+        if (productDAO.existsById(product.getProductId())) {
+            productDAO.save(product);
+            logger.info("Product was successfully updated");
+            return true;
+        }else{
+            logger.error("Product does not exist in the database; nothing to update");
+            return false;
+        }
+    }
+
 //    public List<Product> getDiscountedProducts(){
 //        List<Product> discountProductList = productDAO.findByDiscountedProduct();
 //        if (discountProductList == null) {

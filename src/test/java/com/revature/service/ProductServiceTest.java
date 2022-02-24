@@ -31,8 +31,8 @@ public class ProductServiceTest {
 //        Mockito.when(mockedDAO.existsById(-1)).thenReturn(false);
         Mockito.when(mockedDAO.findById(-1)).thenReturn(null);
         Mockito.when(mockedDAO.findById(3)).thenReturn(java.util.Optional.of(new Product()));
-        Mockito.when(mockedDAO.findByDiscountedTrue()).thenReturn((new ArrayList<>()));
-        Mockito.when(mockedDAO.findByFeaturedTrue()).thenReturn((new ArrayList<>()));
+//        Mockito.when(mockedDAO.findByDiscountedTrue()).thenReturn((new ArrayList<>()));
+        Mockito.when(mockedDAO.findByFeaturedProductTrue()).thenReturn((new ArrayList<>()));
     }
 
     @Test

@@ -68,18 +68,6 @@ public class CartController {
             return ResponseEntity.status(200).build();
         }
         return ResponseEntity.badRequest().build();
-
     }
-
-    @RequestMapping(name="/delete", method = RequestMethod.OPTIONS)
-    public ResponseEntity options(HttpServletResponse response) {
-
-        HttpHeaders headers = new HttpHeaders();
-        headers.add("Access-Control-Allow-Methods","GET,HEAD,POST, PUT, DELETE");
-        headers.add("Allow", "HEAD,GET,PUT,POST, DELETE, OPTIONS");
-        headers.add("Access-Control-Allow-Origin","*");
-        return ResponseEntity.status(200).headers(headers).build();
-    }
-
 
 }

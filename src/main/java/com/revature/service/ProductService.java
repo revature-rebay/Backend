@@ -49,7 +49,7 @@ public class ProductService {
     }
 
     public List<Product> getFeaturedProducts(){
-        List<Product> featuredProductList = productDAO.findByFeaturedTrue();
+        List<Product> featuredProductList = productDAO.findByFeaturedProduct(true);
         if (featuredProductList == null) {
             logger.error("Featured products could not be retrieved");
             return null;
@@ -61,16 +61,16 @@ public class ProductService {
         return featuredProductList;
     }
 
-    public List<Product> getDiscountedProducts(){
-        List<Product> discountProductList = productDAO.findByDiscountedTrue();
-        if (discountProductList == null) {
-            logger.error("Discount products could not be retrieved");
-            return null;
-        }else if (discountProductList.isEmpty()) {
-            logger.info("Discount list is currently empty");
-        }else {
-            logger.info("Discount list was successfully retrieved");
-        }
-        return discountProductList;
-    }
+//    public List<Product> getDiscountedProducts(){
+//        List<Product> discountProductList = productDAO.findByDiscountedProduct();
+//        if (discountProductList == null) {
+//            logger.error("Discount products could not be retrieved");
+//            return null;
+//        }else if (discountProductList.isEmpty()) {
+//            logger.info("Discount list is currently empty");
+//        }else {
+//            logger.info("Discount list was successfully retrieved");
+//        }
+//        return discountProductList;
+//    }
 }

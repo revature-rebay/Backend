@@ -49,7 +49,7 @@ public class ProductService {
     }
 
     public List<Product> getFeaturedProducts(){
-        List<Product> featuredProductList = productDAO.findByFeaturedProduct(true);
+        List<Product> featuredProductList = productDAO.findByFeaturedProductTrue();
         if (featuredProductList == null) {
             logger.error("Featured products could not be retrieved");
             return null;

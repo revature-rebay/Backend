@@ -7,5 +7,4 @@ import java.util.List;
 
 public interface ProductDAO extends JpaRepository<Product, Integer> {
     List<Product> findByFeaturedProductTrue();
-    List<Product> findByDiscountedTrue();
 }

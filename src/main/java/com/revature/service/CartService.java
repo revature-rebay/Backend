@@ -50,7 +50,19 @@ public class CartService {
             return cartItems;
         }
         Product product = productOptional.get();
+
+        for(int i = 0; i <= cartItems.size()-1; i++)
+        {
+            if(cartItems.get(i).getProduct().getProductId() == item.productId)
+            {
+                System.out.println("dont add duplicate numbers use the update feature instead");
+                return cartItems;
+            }
+        }
+
+
         CartItem cartItem = new CartItem(item.quantity, product, user);
+
         if(item.quantity >99 || item.quantity<0){
             System.out.println("Invalid Quantity.");
             return cartItems;

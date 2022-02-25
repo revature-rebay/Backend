@@ -33,8 +33,8 @@ public class Product {
     private int currentStock;
 
     //Images can be byte arrays or url links for s3 images
-    @Column(name = "product_image")
-    private byte[] productImage;
+//    @Column(name = "product_image")
+//    private byte[] productImage;
     //private String ProductImageURL;
 
 
@@ -47,7 +47,7 @@ public class Product {
         this.discountPercentage = discountPercentage;
         this.featuredProduct = featuredProduct;
         this.currentStock = currentStock;
-        this.productImage = productImage;
+//        this.productImage = productImage;
     }
 
     public int getProductId() {
@@ -90,27 +90,26 @@ public class Product {
         this.currentStock = currentStock;
     }
 
-    public byte[] getProductImage() {
-        return productImage;
-    }
+//    public byte[] getProductImage() {
+//        return productImage;
+//    }
 
-    public void setProductImage(byte[] productImage) {
-        this.productImage = productImage;
-    }
+//    public void setProductImage(byte[] productImage) {
+//        this.productImage = productImage;
+//    }
+
 
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Product product = (Product) o;
-        return productId == product.productId && Double.compare(product.productPrice, productPrice) == 0 && Double.compare(product.discountPercentage, discountPercentage) == 0 && featuredProduct == product.featuredProduct && currentStock == product.currentStock && Arrays.equals(productImage, product.productImage);
+        return productId == product.productId && Double.compare(product.productPrice, productPrice) == 0 && Double.compare(product.discountPercentage, discountPercentage) == 0 && featuredProduct == product.featuredProduct && currentStock == product.currentStock && Objects.equals(productName, product.productName) && Objects.equals(productDescription, product.productDescription);
     }
 
     @Override
     public int hashCode() {
-        int result = Objects.hash(productId, productPrice, discountPercentage, featuredProduct, currentStock);
-        result = 31 * result + Arrays.hashCode(productImage);
-        return result;
+        return Objects.hash(productId, productPrice, productName, productDescription, discountPercentage, featuredProduct, currentStock);
     }
 
     @Override
@@ -118,10 +117,11 @@ public class Product {
         return "Product{" +
                 "productId=" + productId +
                 ", productPrice=" + productPrice +
+                ", productName='" + productName + '\'' +
+                ", productDescription='" + productDescription + '\'' +
                 ", discountPercentage=" + discountPercentage +
                 ", featuredProduct=" + featuredProduct +
                 ", currentStock=" + currentStock +
-                ", productImage=" + Arrays.toString(productImage) +
                 '}';
     }
 }

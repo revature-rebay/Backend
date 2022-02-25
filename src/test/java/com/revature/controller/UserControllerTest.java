@@ -1,6 +1,7 @@
 package com.revature.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.revature.models.CartItem;
 import com.revature.models.User;
 import com.revature.service.UserService;
 import org.junit.jupiter.api.BeforeEach;
@@ -16,6 +17,7 @@ import org.springframework.test.web.servlet.MvcResult;
 
 import javax.servlet.http.Cookie;
 import java.util.ArrayList;
+import java.util.List;
 
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
@@ -43,7 +45,10 @@ class UserControllerTest {
 
     @BeforeEach
     void init(){
-        user = new User(1, "flodev", "password", "email@email.com", "Eric", "Florence", 1, new ArrayList<>());
+//        Object List;
+//        Object CartItem;
+        List<CartItem> cart = new ArrayList<CartItem>();
+        user = new User(1, "flodev", "password", "email@email.com", "Eric", "Florence", 1, cart);
     }
 
     @Test

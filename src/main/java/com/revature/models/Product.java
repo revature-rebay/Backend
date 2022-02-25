@@ -10,11 +10,15 @@ public class Product {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "product_id")
+    @Column(name = "product_id", insertable = false, updatable = false)
     private int productId;
 
     @Column(name = "product_price")
     private double productPrice;
+    @Column(name = "product_name")
+    private String productName;
+    @Column(name = "product_description")
+    private String productDescription;
 
     //Not sure how the sales team wants to handle sales
     //Could have the admin decide the specific amount, or select an enum with a value associated with it, etc.

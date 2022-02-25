@@ -36,7 +36,7 @@ public class ProductService {
     }
 
     public Product getProduct(int productId) {
-//        if (productDAO.existsById(productId)) {
+        if (productDAO.existsById(productId)) {
             Optional<Product> product = productDAO.findById(productId);
             if(product != null && product.isPresent()) {
                 logger.info("The product was found and returned");
@@ -44,7 +44,7 @@ public class ProductService {
             }else {
                 logger.error("The product exists, but there was an issue retrieving it");
             }
-//        }
+        }
         logger.error("There aren't any products associated with the given ID");
         return null;
     }

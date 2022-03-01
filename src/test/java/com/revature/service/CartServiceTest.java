@@ -38,8 +38,8 @@ public class CartServiceTest {
         user.setEmail("JDoe@email.com");
         user.setPassWord("password");
         user.setRoleId(1);
-        Product product1 = new Product(1, 50.00, 0, true,100, "".getBytes());
-        Product product2 = new Product(2, 150.00, 0, true,100, "".getBytes());
+        Product product1 = new Product(1, 50.00, 0, true,100, "Product Name here", "Product Description here");
+        Product product2 = new Product(2, 150.00, 0, true,100, "Product Name here", "Product Description here");
 
         CartItem item1 = new CartItem(1,1, product1, user);
         CartItem item2 = new CartItem(2,2, product2, user);

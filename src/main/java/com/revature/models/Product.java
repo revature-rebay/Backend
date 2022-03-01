@@ -32,22 +32,35 @@ public class Product {
     @Column(name = "current_stock")
     private int currentStock;
 
-    //Images can be byte arrays or url links for s3 images
-//    @Column(name = "product_image")
-//    private byte[] productImage;
-    //private String ProductImageURL;
-
 
     public Product() {
     }
 
-    public Product(int productId, double productPrice, double discountPercentage, boolean featuredProduct, int currentStock, byte[] productImage) {
+    public Product(int productId, double productPrice, double discountPercentage, boolean featuredProduct, int currentStock,
+                String productName, String productDescription) {
         this.productId = productId;
         this.productPrice = productPrice;
         this.discountPercentage = discountPercentage;
         this.featuredProduct = featuredProduct;
         this.currentStock = currentStock;
-//        this.productImage = productImage;
+        this.productName = productName;
+        this.productDescription = productDescription;
+    }
+
+    public String getProductName() {
+        return productName;
+    }
+
+    public void setProductName(String productName) {
+        this.productName = productName;
+    }
+
+    public String getProductDescription() {
+        return productDescription;
+    }
+
+    public void setProductDescription(String productDescription) {
+        this.productDescription = productDescription;
     }
 
     public int getProductId() {
@@ -90,26 +103,21 @@ public class Product {
         this.currentStock = currentStock;
     }
 
-//    public byte[] getProductImage() {
-//        return productImage;
-//    }
-
-//    public void setProductImage(byte[] productImage) {
-//        this.productImage = productImage;
-//    }
-
 
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+        if (!(o instanceof Product)) return false;
         Product product = (Product) o;
-        return productId == product.productId && Double.compare(product.productPrice, productPrice) == 0 && Double.compare(product.discountPercentage, discountPercentage) == 0 && featuredProduct == product.featuredProduct && currentStock == product.currentStock && Objects.equals(productName, product.productName) && Objects.equals(productDescription, product.productDescription);
+        return getProductId() == product.getProductId() && Double.compare(product.getProductPrice(), getProductPrice()) == 0 && Double.compare(product.getDiscountPercentage(), getDiscountPercentage()) == 0 && isFeaturedProduct() == product.isFeaturedProduct() && getCurrentStock() == product.getCurrentStock() && Objects.equals(getProductName(), product.getProductName()) && Objects.equals(getProductDescription(), product.getProductDescription());
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(productId, productPrice, productName, productDescription, discountPercentage, featuredProduct, currentStock);
+        int result = Objects.hash(getProductId(), getProductPrice(), getProductName(), getProductDescription(), getDiscountPercentage(), isFeaturedProduct(), getCurrentStock());
+        result = 31 * result;
+        return result;
+
     }
 
     @Override

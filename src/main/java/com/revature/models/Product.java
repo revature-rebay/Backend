@@ -34,6 +34,7 @@ public class Product {
 
 
     public Product() {
+        //product_price, product_name, product_description, discount_percentage, featured_product, current_stock
     }
 
     public Product(int productId, double productPrice, double discountPercentage, boolean featuredProduct, int currentStock,

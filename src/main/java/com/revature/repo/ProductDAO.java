@@ -8,4 +8,5 @@ import java.util.List;
 @Repository
 public interface ProductDAO extends JpaRepository<Product, Integer> {
     List<Product> findByFeaturedProductTrue();
+    List<Product> findByDiscountPercentageGreaterThan(Double value);
 }

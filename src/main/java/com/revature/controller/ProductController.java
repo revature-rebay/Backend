@@ -44,6 +44,18 @@ public class ProductController {
         return ResponseEntity.status(204).build();
     }
 
+    @GetMapping("/featured")
+    public ResponseEntity<List<Product>> getFeatured(){
+        List<Product> featuredList = productService.getFeaturedProducts();
+        if(featuredList != null){
+            logger.info("Featured products have been found!");
+            return ResponseEntity.status(200).body(featuredList);
+        }else{
+            logger.info("Featured products have been requested but don't exist!");
+            return ResponseEntity.status(204).build();
+        }
+    }
+
     @PostMapping
     public ResponseEntity<Boolean> addProduct(@RequestBody Product product){
         boolean wasSaved = productService.addProduct(product);

@@ -58,6 +58,7 @@ public class ProductService {
             logger.info("Featured list is currently empty");
         }else {
             logger.info("Featured list was successfully retrieved");
+            System.out.println(featuredProductList.get(0));
         }
         return featuredProductList;
     }

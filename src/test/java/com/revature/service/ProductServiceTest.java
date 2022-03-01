@@ -33,6 +33,7 @@ public class ProductServiceTest {
         Mockito.when(mockedDAO.findById(3)).thenReturn(java.util.Optional.of(new Product()));
 //        Mockito.when(mockedDAO.findByDiscountedTrue()).thenReturn((new ArrayList<>()));
         Mockito.when(mockedDAO.findByFeaturedProductTrue()).thenReturn((new ArrayList<>()));
+        Mockito.when(mockedDAO.findByDiscountPercentageGreaterThan(0.0)).thenReturn((new ArrayList<>()));
     }
 
     @Test
@@ -56,8 +57,8 @@ public class ProductServiceTest {
     }
 
     @Test
-    void getDiscountedProducts() {
-        List<Product> testList = testInstance.getFeaturedProducts();
+    void getClearanceProducts() {
+        List<Product> testList = testInstance.getClearanceProducts();
         assertEquals(0, testList.size());
     }
 

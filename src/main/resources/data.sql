@@ -3,21 +3,21 @@ INSERT INTO USER_TBL (EMAIL, FIRST_NAME, LAST_NAME, PASS_WORD, ROLE_ID, USER_NAM
     'Alex',
     'Anderson',
     '$2a$10$2yhPCSH8dCFS0leAii91EeFoD13fODU6Kgk5KBcuIhcLyNizRO9Lq',
-    1,
+    2,
     'WindowShopper'
 ),(
     'sam@sample.com',
     'Sam',
     'Simpson',
     '$2a$10$2yhPCSH8dCFS0leAii91EeFoD13fODU6Kgk5KBcuIhcLyNizRO9Lq',
-    1,
+    2,
     'PackRat'
 ),(
     'jordan@rebay.net',
     'Jordan',
     'Jones',
     '$2a$10$2yhPCSH8dCFS0leAii91EeFoD13fODU6Kgk5KBcuIhcLyNizRO9Lq',
-    2,
+    1,
     'BigBoss'
 );
 

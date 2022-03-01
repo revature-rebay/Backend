@@ -30,7 +30,9 @@ public class ProductController {
 
     @GetMapping
     public ResponseEntity<List<Product>> getAllProducts(){
-        return ResponseEntity.status(200).body(productService.getAllProducts());
+        List<Product> products = productService.getAllProducts();
+        System.out.println("Here's the products currently in the db: " + products);
+        return ResponseEntity.status(200).body(products);
     }
 
     @GetMapping("/{id}")

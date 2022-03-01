@@ -31,10 +31,6 @@ dependencies {
 
 }
 
-bootJar{
-	final archiveClassifier = 'boot'
-}
-
 tasks.named('test') {
 	useJUnitPlatform()
 }

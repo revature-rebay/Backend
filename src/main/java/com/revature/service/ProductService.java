@@ -61,6 +61,20 @@ public class ProductService {
         return featuredProductList;
     }
 
+    public List<Product> getClearanceProducts(){
+        List<Product> discountProductList = productDAO.findByDiscountPercentageGreaterThan(0.0);
+        if(discountProductList == null){
+            logger.info("Clearance items list could not be retrieved");
+            return null;
+        }else if (discountProductList.isEmpty()) {
+            logger.info("Clearance list is currently empty");
+        }else {
+            logger.info("Clearance list was successfully retrieved");
+            System.out.println(discountProductList.get(0));
+        }
+        return discountProductList;
+    }
+
     public boolean addProduct(Product product){
         if (!productDAO.existsById(product.getProductId())){
             productDAO.save(product);
@@ -94,16 +108,4 @@ public class ProductService {
         }
     }
 
-//    public List<Product> getDiscountedProducts(){
-//        List<Product> discountProductList = productDAO.findByDiscountedProduct();
-//        if (discountProductList == null) {
-//            logger.error("Discount products could not be retrieved");
-//            return null;
-//        }else if (discountProductList.isEmpty()) {
-//            logger.info("Discount list is currently empty");
-//        }else {
-//            logger.info("Discount list was successfully retrieved");
-//        }
-//        return discountProductList;
-//    }
 }

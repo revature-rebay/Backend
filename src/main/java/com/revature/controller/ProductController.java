@@ -41,6 +41,26 @@ public class ProductController {
         return ResponseEntity.status(204).build();
     }
 
+    @GetMapping("/featured")
+    public ResponseEntity<List<Product>> getFeatured(){
+        List<Product> featuredList = productService.getFeaturedProducts();
+        if(featuredList != null){
+            return ResponseEntity.status(200).body(featuredList);
+        }else{
+            return ResponseEntity.status(204).build();
+        }
+    }
+
+    @GetMapping("/clearance")
+    public ResponseEntity<List<Product>> getClearance(){
+        List<Product> clearanceList = productService.getClearanceProducts();
+        if(clearanceList != null) {
+            return ResponseEntity.status(200).body(clearanceList);
+        }else{
+            return ResponseEntity.status(204).build();
+        }
+    }
+
     @PostMapping
     public ResponseEntity<Boolean> addProduct(@RequestBody Product product){
         boolean wasSaved = productService.addProduct(product);

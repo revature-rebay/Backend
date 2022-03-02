@@ -53,10 +53,10 @@ public class CartController {
         return ResponseEntity.status(200).body(list);
     }
 
-    @DeleteMapping("/delete")
+    @PutMapping("/delete")
     public ResponseEntity<List<CartItem>> deleteFromCart(@RequestBody CartDTO cartDTO) {
         List<CartItem> cartItems = service.deleteFromCart(cartDTO);
-        if(cartItems.isEmpty()){
+        if(cartItems == null){
             return ResponseEntity.badRequest().build();
         }
         return ResponseEntity.status(200).body(cartItems);

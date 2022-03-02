@@ -70,4 +70,12 @@ public class CartController {
         return ResponseEntity.badRequest().build();
     }
 
+    @PutMapping("/checkout/{userId}")
+    public ResponseEntity checkout(@PathVariable("userId") int userId) {
+        if(service.checkout(userId)){
+            return ResponseEntity.status(200).build();
+        }
+        return ResponseEntity.badRequest().build();
+    }
+
 }

@@ -9,6 +9,7 @@ import com.revature.repo.UserDAO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -128,5 +129,32 @@ public class CartService {
         return true;
     }
 
+    @Transactional
+    public boolean checkout(int userId) {
+        Optional<User> userOptional = userDAO.findById(userId);
+        if (!userOptional.isPresent()) {
+            return false;
+        }
+        User user = userOptional.get();
 
+        if(user.getCart().isEmpty()) return false;
+
+        for (CartItem c : user.getCart())
+        {
+            Optional<Product> productOptional = productDAO.findById(c.getProduct().getProductId());
+            if(!productOptional.isPresent()){
+                return false;
+            }
+            Product product = productOptional.get();
+            if(product.getCurrentStock() >= c.getQuantity())
+            {
+                product.setCurrentStock(product.getCurrentStock()- c.getQuantity());
+                productDAO.save(product);
+            }
+            else{
+                return false;
+            }
+        }
+        return clearCart(userId);
+    }
 }

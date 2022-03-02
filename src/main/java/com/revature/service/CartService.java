@@ -155,6 +155,7 @@ public class CartService {
                 return false;
             }
         }
+
         return clearCart(userId);
     }
 }

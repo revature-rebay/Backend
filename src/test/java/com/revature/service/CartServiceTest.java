@@ -144,7 +144,7 @@ public class CartServiceTest {
     @Test void testDeleteFailBadUserId(){
         //Test invalid user Id
         List<CartItem> cart = service.deleteFromCart(new CartDTO(-1,1,1));
-        assertTrue(cart.size() == 0);
+        assertNull(cart);
     }
 
     @Test

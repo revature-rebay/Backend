@@ -4,8 +4,6 @@ import com.revature.models.User;
 import com.revature.service.UserService;
 import com.revature.utils.Cookies;
 import lombok.RequiredArgsConstructor;
-import org.apache.tomcat.util.net.openssl.ciphers.Encryption;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseCookie;
@@ -13,7 +11,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@CrossOrigin(origins = "http://localhost:4200", allowCredentials = "true")
+@CrossOrigin(origins = "http://localhost:4200, http://LocaLhost:8080, http://d1fpc6erw3y64i.cloudfront.net, http://ec2-44-203-89-9.compute-1.amazonaws.com:9090", allowCredentials = "true")
 @RequestMapping("/user")
 @RequiredArgsConstructor
 public class UserController {

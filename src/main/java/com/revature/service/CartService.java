@@ -99,7 +99,7 @@ public class CartService {
         //Get the User and cartItems List to modify
         Optional<User> userOptional = userDAO.findById(item.userId);
         if(!userOptional.isPresent()){
-            return new ArrayList<>();
+            return null;
         }
         User user = userOptional.get();
         ArrayList<CartItem> cartItems = new ArrayList<>(user.getCart());

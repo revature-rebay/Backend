@@ -77,7 +77,7 @@ public ResponseEntity checkout(@PathVariable("userId") int userId) {
             }
         }
         catch(RuntimeException e){
-            return ResponseEntity.status(410).body(gson.toJson(e.getMessage()));
+            return ResponseEntity.status(410).body(e.getMessage());
         }
         return ResponseEntity.status(200).build();
     }

@@ -96,6 +96,7 @@ public class CartService {
         return(user.getCart());
     }
 
+    @Transactional
     public List<CartItem> deleteFromCart(CartDTO item){
         //Get the User and cartItems List to modify
         Optional<User> userOptional = userDAO.findById(item.userId);
@@ -111,7 +112,7 @@ public class CartService {
             return cartItems;
         }
         Product product = productOptional.get();
-        CartItem cartItem = new CartItem(0,0, product, user);
+        CartItem cartItem = new CartItem(0, product, user);
         user.removeCartItem(cartItem);
         userDAO.save(user);
         return user.getCart();

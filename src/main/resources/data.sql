@@ -22,8 +22,8 @@ INSERT INTO USER_TBL (EMAIL, FIRST_NAME, LAST_NAME, PASS_WORD, ROLE_ID, USER_NAM
 );
 
 INSERT INTO products(product_price, product_name, product_description, discount_percentage, featured_product, current_stock) VALUES
-(5, 'black_hat', 'A black hat to commemorate your joining the dark side.', 0, true, 30),
-(10,'black_shirt', 'A stylish option if you want your torso to channel the void.', 0, true, 20),
+(5, 'black_hat', 'A black hat to commemorate your joining the dark side.', 0.2, true, 30),
+(10,'black_shirt', 'A stylish option if you want your torso to channel the void.', 0.3, true, 20),
 (4,'bound_notebook', 'A handy journal for all your pen on paper needs.', 0, true, 10),
 (3, 'carabiner', 'An accessory to wow your friends with your outdoorsiness.', 0, true, 30),
 (7, 'drawstring_bag', 'A casual container universally used for swim and sports wear.', 0, false, 20),

@@ -32,23 +32,18 @@ public class Product {
     @Column(name = "current_stock")
     private int currentStock;
 
-    //Images can be byte arrays or url links for s3 images
-    @Column(name = "product_image")
-    private byte[] productImage;
-    //private String ProductImageURL;
-
 
     public Product() {
+        //product_price, product_name, product_description, discount_percentage, featured_product, current_stock
     }
 
     public Product(int productId, double productPrice, double discountPercentage, boolean featuredProduct, int currentStock,
-                   byte[] productImage, String productName, String productDescription) {
+                String productName, String productDescription) {
         this.productId = productId;
         this.productPrice = productPrice;
         this.discountPercentage = discountPercentage;
         this.featuredProduct = featuredProduct;
         this.currentStock = currentStock;
-        this.productImage = productImage;
         this.productName = productName;
         this.productDescription = productDescription;
     }
@@ -109,27 +104,21 @@ public class Product {
         this.currentStock = currentStock;
     }
 
-    public byte[] getProductImage() {
-        return productImage;
-    }
-
-    public void setProductImage(byte[] productImage) {
-        this.productImage = productImage;
-    }
 
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (!(o instanceof Product)) return false;
         Product product = (Product) o;
-        return getProductId() == product.getProductId() && Double.compare(product.getProductPrice(), getProductPrice()) == 0 && Double.compare(product.getDiscountPercentage(), getDiscountPercentage()) == 0 && isFeaturedProduct() == product.isFeaturedProduct() && getCurrentStock() == product.getCurrentStock() && Objects.equals(getProductName(), product.getProductName()) && Objects.equals(getProductDescription(), product.getProductDescription()) && Arrays.equals(getProductImage(), product.getProductImage());
+        return getProductId() == product.getProductId() && Double.compare(product.getProductPrice(), getProductPrice()) == 0 && Double.compare(product.getDiscountPercentage(), getDiscountPercentage()) == 0 && isFeaturedProduct() == product.isFeaturedProduct() && getCurrentStock() == product.getCurrentStock() && Objects.equals(getProductName(), product.getProductName()) && Objects.equals(getProductDescription(), product.getProductDescription());
     }
 
     @Override
     public int hashCode() {
         int result = Objects.hash(getProductId(), getProductPrice(), getProductName(), getProductDescription(), getDiscountPercentage(), isFeaturedProduct(), getCurrentStock());
-        result = 31 * result + Arrays.hashCode(getProductImage());
+        result = 31 * result;
         return result;
+
     }
 
     @Override
@@ -142,7 +131,6 @@ public class Product {
                 ", discountPercentage=" + discountPercentage +
                 ", featuredProduct=" + featuredProduct +
                 ", currentStock=" + currentStock +
-                ", productImage=" + Arrays.toString(productImage) +
                 '}';
     }
 }

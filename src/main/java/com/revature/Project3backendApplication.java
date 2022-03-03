@@ -26,7 +26,7 @@ public class Project3backendApplication {
 		final UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
 		final CorsConfiguration config = new CorsConfiguration();
 		config.setAllowCredentials(true);
-		config.setAllowedOrigins(Collections.singletonList("http://localhost:4200"));
+		config.setAllowedOrigins(Arrays.asList("http://localhost:4200", "http://d1fpc6erw3y64i.cloudfront.net", "http://LocaLhost:8080", "http://ec2-44-203-89-9.compute-1.amazonaws.com:9090"));
 		config.setAllowedHeaders(Collections.singletonList("*"));
 		config.setAllowedMethods(Arrays.stream(HttpMethod.values()).map(HttpMethod::name).collect(Collectors.toList()));
 		source.registerCorsConfiguration("/**", config);

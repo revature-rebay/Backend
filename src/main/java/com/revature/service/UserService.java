@@ -22,16 +22,20 @@ public class UserService {
         return userDAO.findById(id).orElse(null);
     }
 
-    public boolean saveUser(User user){
-            if(user!=null){
-                user.setRoleId(2);//sets newly registered user to user/customer role
-                user.setPassWord(BCrypt.hashpw(user.getPassWord(), BCrypt.gensalt()));
-                userDAO.save(user);
-                return true;
-            }
-
-        return false;
+    //insert or update a user's info, return new user info
+    public User saveUser(User user){
+        //if user doesn't exist yet, encrypt the password
+        if(getUser(user.getId())==null){
+            user.setPassWord(BCrypt.hashpw(user.getPassWord(), BCrypt.gensalt()));
         }
+
+        //update/insert, fails if it violates unique constraint on username and email
+        try{
+            return userDAO.save(user);
+        }catch (Exception e){
+            return null;
+        }
+    }
 
 
     public User validateAccount(String userName, String passWord) {

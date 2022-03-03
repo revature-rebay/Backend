@@ -37,7 +37,7 @@ public class CartServiceTest {
         user.setUserName("JDoe");
         user.setEmail("JDoe@email.com");
         user.setPassWord("password");
-        user.setRoleId(1);
+        user.setAdmin(false);
         Product product1 = new Product(1, 50.00, 0, true,100, "Product Name here", "Product Description here");
         Product product2 = new Product(2, 150.00, 0, true,100, "Product Name here", "Product Description here");
 

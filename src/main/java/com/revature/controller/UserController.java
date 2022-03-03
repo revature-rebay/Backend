@@ -11,7 +11,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@CrossOrigin(origins = "http://localhost:4200, http://LocaLhost:8080, http://d1fpc6erw3y64i.cloudfront.net, http://ec2-44-203-89-9.compute-1.amazonaws.com:9090", allowCredentials = "true")
+@CrossOrigin(origins = {"http://localhost:4200", "http://d1fpc6erw3y64i.cloudfront.net"}, allowCredentials = "true")
 @RequestMapping("/user")
 @RequiredArgsConstructor
 public class UserController {
@@ -35,24 +35,18 @@ public class UserController {
 
     @GetMapping("/current")
     public ResponseEntity<User> getCurrentUser(@CookieValue(name = "rebay_User") String cookie){
-
         User user = Cookies.isCookieValid(cookie);
-//
         if(user!=null){
-
             user = userService.getUser(user.getId());
-
             return ResponseEntity.status(200).body(user);
         }
         return ResponseEntity.status(204).build();
-
     }
 
     @PostMapping
     public ResponseEntity<User> createUser(@RequestBody User user){
-
-
-        if(userService.saveUser(user)){
+        User savedUser = userService.saveUser(user);
+        if(savedUser!=null){
             return ResponseEntity.status(201).build();
         }
         return ResponseEntity.status(400).build();

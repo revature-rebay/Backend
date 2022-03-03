@@ -130,32 +130,37 @@ public class CartService {
     }
 
     @Transactional
-    public boolean checkout(int userId) {
+    public List<CartItem> checkout(int userId) {
         Optional<User> userOptional = userDAO.findById(userId);
         if (!userOptional.isPresent()) {
-            return false;
+            return null;
         }
         User user = userOptional.get();
 
-        if(user.getCart().isEmpty()) return false;
+        if(user.getCart().isEmpty()) return null;
+
+        ArrayList<CartItem> notInStock = new ArrayList<>();
 
         for (CartItem c : user.getCart())
         {
             Optional<Product> productOptional = productDAO.findById(c.getProduct().getProductId());
             if(!productOptional.isPresent()){
-                return false;
+                notInStock.add(c);
             }
-            Product product = productOptional.get();
-            if(product.getCurrentStock() >= c.getQuantity())
-            {
+            else if(productOptional.get().getCurrentStock() >= c.getQuantity() ) {
+                Product product = productOptional.get();
                 product.setCurrentStock(product.getCurrentStock()- c.getQuantity());
                 productDAO.save(product);
             }
             else{
-                return false;
+                notInStock.add(c);
             }
         }
 
-        return clearCart(userId);
+        if(!notInStock.isEmpty()) {
+            throw new RuntimeException(notInStock.toString());
+        }
+        clearCart(userId);
+        return new ArrayList<>();
     }
 }

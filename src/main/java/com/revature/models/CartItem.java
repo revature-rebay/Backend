@@ -88,7 +88,7 @@ public class CartItem {
         return "CartItem{" +
                 "id=" + id +
                 ", quantity=" + quantity +
-                ", product=" + product.getProductId() +
+                ", product=" + product.toString()+
                 '}';
     }
 

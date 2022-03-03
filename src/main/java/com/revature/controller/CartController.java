@@ -1,16 +1,13 @@
 package com.revature.controller;
-
+import com.google.gson.Gson;
 import com.revature.models.CartDTO;
 import com.revature.models.CartItem;
 import com.revature.service.CartService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import javax.servlet.http.HttpServletResponse;
 //import javax.xml.ws.Response;
-import java.util.ArrayList;
 import java.util.List;
 
 @RestController
@@ -70,12 +67,19 @@ public class CartController {
         return ResponseEntity.badRequest().build();
     }
 
-    @PutMapping("/checkout/{userId}")
-    public ResponseEntity checkout(@PathVariable("userId") int userId) {
-        if(service.checkout(userId)){
-            return ResponseEntity.status(200).build();
+@PutMapping("/checkout/{userId}")
+public ResponseEntity checkout(@PathVariable("userId") int userId) {
+        Gson gson = new Gson();
+        try{
+            List<CartItem> cart = service.checkout(userId);
+            if(cart == null) {
+                return ResponseEntity.badRequest().build();
+            }
         }
-        return ResponseEntity.badRequest().build();
+        catch(RuntimeException e){
+            return ResponseEntity.status(410).body(gson.toJson(e.getMessage()));
+        }
+        return ResponseEntity.status(200).build();
     }
 
 }

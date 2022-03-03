@@ -4,8 +4,6 @@ import com.revature.models.User;
 import com.revature.service.UserService;
 import com.revature.utils.Cookies;
 import lombok.RequiredArgsConstructor;
-import org.apache.tomcat.util.net.openssl.ciphers.Encryption;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseCookie;
@@ -37,24 +35,18 @@ public class UserController {
 
     @GetMapping("/current")
     public ResponseEntity<User> getCurrentUser(@CookieValue(name = "rebay_User") String cookie){
-
         User user = Cookies.isCookieValid(cookie);
-//
         if(user!=null){
-
             user = userService.getUser(user.getId());
-
             return ResponseEntity.status(200).body(user);
         }
         return ResponseEntity.status(204).build();
-
     }
 
     @PostMapping
     public ResponseEntity<User> createUser(@RequestBody User user){
-
-
-        if(userService.saveUser(user)){
+        User savedUser = userService.saveUser(user);
+        if(savedUser!=null){
             return ResponseEntity.status(201).build();
         }
         return ResponseEntity.status(400).build();

@@ -48,7 +48,7 @@ class UserControllerTest {
 //        Object List;
 //        Object CartItem;
         List<CartItem> cart = new ArrayList<CartItem>();
-        user = new User(1, "flodev", "password", "email@email.com", "Eric", "Florence", 1, cart);
+        user = new User(1, "flodev", "password", "email@email.com", "Eric", "Florence", false, cart);
     }
 
     @Test
@@ -68,7 +68,7 @@ class UserControllerTest {
 
     @Test
     void createUser() throws Exception {
-        when(userService.saveUser(user)).thenReturn(true);
+        when(userService.saveUser(user)).thenReturn(user);
         mockMvc.perform(post("/user").contentType("application/json").content(objectMapper.writeValueAsString(user))).andExpect(status().isCreated());
 
         ArgumentCaptor<User> userCaptor = ArgumentCaptor.forClass(User.class);

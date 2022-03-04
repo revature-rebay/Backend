@@ -18,8 +18,6 @@ import java.util.List;
 @AllArgsConstructor
 public class User implements Serializable{
 
-    private static final long serialVersionUID = -2902502762558688842L;
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
@@ -40,6 +38,14 @@ public class User implements Serializable{
     @JsonManagedReference
     private List<CartItem> cart;
 
+    public User(UserDTO user){
+        this.userName = user.getUserName();
+        this.passWord = user.getPassWord();
+        this.email = user.getEmail();
+        this.firstName = user.getFirstName();
+        this.lastName = user.getLastName();
+    }
+
     public void addCartItem(CartItem item) {
         this.cart.add(item);
     }
@@ -59,3 +65,4 @@ public class User implements Serializable{
         });
     }
 }
+

@@ -3,12 +3,8 @@ package com.revature.service;
 import com.revature.models.User;
 import com.revature.repo.UserDAO;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCrypt;
 import org.springframework.stereotype.Service;
-
-import javax.xml.transform.Result;
-import java.sql.SQLException;
 
 @Service
 @RequiredArgsConstructor
@@ -37,30 +33,10 @@ public class UserService {
         }
     }
 
-
     public User validateAccount(String userName, String passWord) {
-
-        // Checks if any of the fields are empty
-        if (userName.isEmpty() || passWord.isEmpty()){
-            return null;
-        }
-//
-//        // Checks if account exists
-        User u = userDAO.findByUserName(userName);
-//        // User doesn't exist
-
-        if (u == null) {
-
-            return null;
-        }
-
-        if (BCrypt.checkpw(passWord, u.getPassWord())){
-
-            return u;
-        }
-        return null;
-
+        //get user from db, if they exist
+        User user = userDAO.findByUserName(userName);
+        //if user exists and password is correct, return user, otherwise return null
+        return (user!=null && BCrypt.checkpw(passWord, user.getPassWord())) ? user:null;
     }
-
-
 }

@@ -90,14 +90,17 @@ public class CartService {
         Product product = productOptional.get();
 
 
-        if(item.productId < 1 || item.userId < 1 || item.quantity > product.getCurrentStock() || item.quantity < 0){
+
+        if(item.productId < 1 || item.userId < 1 || item.quantity < 0){
             System.out.println("Error, invalid input in update Quantity.");
             return user.getCart();
         }
         if(item.quantity == 0)
             deleteFromCart(item);
 
-
+        if(item.quantity > product.getCurrentStock()){
+            item.quantity = product.getCurrentStock();
+        }
 
 
         user.updateCartItem(item);

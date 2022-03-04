@@ -6,6 +6,7 @@ import com.revature.models.Product;
 import com.revature.models.User;
 import com.revature.repo.ProductDAO;
 import com.revature.repo.UserDAO;
+import com.revature.utils.CartException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -159,7 +160,7 @@ public class CartService {
         }
 
         if(!notInStock.isEmpty()) {
-            throw new RuntimeException(notInStock.toString());
+            throw new CartException(notInStock, "Invalid Cart: Product Quantity exceeds stock");
         }
         clearCart(userId);
         return new ArrayList<>();

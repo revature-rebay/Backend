@@ -69,10 +69,10 @@ public class CartController {
         return ResponseEntity.badRequest().build();
     }
 
-@PutMapping("/checkout/{userId}")
-public ResponseEntity checkout(@PathVariable("userId") int userId) {
-    List<CartItem> cart = new ArrayList<>();
-    try{
+    @PutMapping("/checkout/{userId}")
+    public ResponseEntity checkout(@PathVariable("userId") int userId) {
+        List<CartItem> cart = new ArrayList<>();
+        try{
            cart = service.checkout(userId);
             if(cart == null) {
                 return ResponseEntity.badRequest().build();

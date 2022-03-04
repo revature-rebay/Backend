@@ -6,6 +6,7 @@ import com.revature.models.Product;
 import com.revature.models.User;
 import com.revature.repo.ProductDAO;
 import com.revature.repo.UserDAO;
+import com.revature.utils.CartException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -25,6 +26,10 @@ public class CartServiceTest {
     @Mock
     private UserDAO userDao;
     private User user = new User();
+    private User user2 = new User();
+    private Product product1 = new Product();
+    private Product product2 = new Product();
+    private Product product3 = new Product();
     @Mock
     private ProductDAO productDAO;
     private Product product = new Product();
@@ -38,8 +43,9 @@ public class CartServiceTest {
         user.setEmail("JDoe@email.com");
         user.setPassWord("password");
         user.setAdmin(false);
-        Product product1 = new Product(1, 50.00, 0, true,100, "Product Name here", "Product Description here");
-        Product product2 = new Product(2, 150.00, 0, true,100, "Product Name here", "Product Description here");
+        product1 = new Product(1, 50.00, 0, true,100, "Product Name here", "Product Description here");
+        product2 = new Product(2, 150.00, 0, true,100, "Product Name here", "Product Description here");
+        product3 = new Product(3, 150.00, 0, true,5, "Product Name here", "Product Description here");
 
         CartItem item1 = new CartItem(1,1, product1, user);
         CartItem item2 = new CartItem(2,2, product2, user);
@@ -48,9 +54,21 @@ public class CartServiceTest {
         MockitoAnnotations.openMocks(this);
         service = new CartService(userDao, productDAO);
         Mockito.when(userDao.findById(1)).thenReturn(Optional.of(user));
+        Mockito.when(userDao.findById(2)).thenReturn(Optional.of(user2));
+
+        user2.setId(2);
+        user2.setFirstName("Jim");
+        user2.setLastName("Smith");
+        user2.setUserName("jimsmith1");
+        user2.setEmail("jsmtih@email.com");
+        user2.setPassWord("password");
+        user2.setAdmin(false);
+        user2.setCart(new ArrayList<>());
+
 
         Mockito.when(productDAO.findById(1)).thenReturn(Optional.of(product1));
         Mockito.when(productDAO.findById(2)).thenReturn(Optional.of(product2));
+        Mockito.when(productDAO.findById(3)).thenReturn(Optional.of(product3));
     }
 
     @Test
@@ -167,8 +185,9 @@ public class CartServiceTest {
 
     @Test
     public void updateProductQuantityFail(){
+
         List<CartItem> cart = service.updateProductQuantity(new CartDTO(1,1,-1));
-        assertTrue(cart.size() == 0);
+        assertTrue(cart.size() == user.getCart().size());
 
         List<CartItem> cart2 = service.updateProductQuantity(new CartDTO(0,1,2));
         assertTrue(cart2.size() == 0);
@@ -177,9 +196,58 @@ public class CartServiceTest {
         assertTrue(cart3.size() == 0);
 
         List<CartItem> cart4 = service.updateProductQuantity(new CartDTO(1,0,2));
-        assertTrue(cart4.size() == 0);
+        assertTrue(cart4.size() == user.getCart().size());
 
         List<CartItem> cart5 = service.updateProductQuantity(new CartDTO(1,-1,2));
-        assertTrue(cart5.size() == 0);
+        assertTrue(cart5.size() == user.getCart().size());
+    }
+
+    @Test
+    public void checkoutEmptyCart(){
+        List<CartItem> cart = service.checkout(user2.getId());
+        assertNull(cart);
+    }
+
+    @Test
+    public void checkoutCartSuccess(){
+        List<CartItem> cart = service.checkout(user.getId());
+        assertTrue(cart.isEmpty());
+        assertTrue(user.getCart().isEmpty());
+        assertEquals(99, product1.getCurrentStock());
+        assertEquals(98, product2.getCurrentStock());
+    }
+
+    @Test
+    void checkoutCartFailureOutOfStock(){
+        CartItem item3 = new CartItem(3,10, product3, user);
+        user.addCartItem(item3);
+        assertThrows(CartException.class, () -> {
+            service.checkout(user.getId());
+        });
+
+        try {
+            service.checkout(user.getId());
+        }catch (CartException e){
+            List<CartItem> notInStock = e.getNotInStock();
+            assertFalse(notInStock.isEmpty());
+            assertTrue(notInStock.get(0).equals(item3));
+
+        }
+    }
+
+    @Test
+    void checkoutCartFailureBadUserId(){
+        List<CartItem> list = service.checkout(100);
+        assertNull(list);
+    }
+
+    @Test
+    void checkoutCartFailureBadProduct(){
+        CartItem item3 = new CartItem(92, 1, new Product(92,1.0,0,false,100,"product","product desc"), user);
+        user.addCartItem(item3);
+
+        assertThrows(RuntimeException.class, ()->{
+           service.checkout(user.getId());
+        });
     }
 }

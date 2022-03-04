@@ -3,12 +3,11 @@ package com.revature.controller;
 import com.revature.models.CartDTO;
 import com.revature.models.CartItem;
 import com.revature.service.CartService;
+import com.revature.utils.CartException;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import javax.servlet.http.HttpServletResponse;
 //import javax.xml.ws.Response;
 import java.util.ArrayList;
 import java.util.List;
@@ -68,6 +67,24 @@ public class CartController {
             return ResponseEntity.status(200).build();
         }
         return ResponseEntity.badRequest().build();
+    }
+
+@PutMapping("/checkout/{userId}")
+public ResponseEntity checkout(@PathVariable("userId") int userId) {
+    List<CartItem> cart = new ArrayList<>();
+    try{
+           cart = service.checkout(userId);
+            if(cart == null) {
+                return ResponseEntity.badRequest().build();
+            }
+        }
+        catch(CartException e){
+            return ResponseEntity.status(410).body(e.getNotInStock());
+        }
+        catch (RuntimeException e){
+            return ResponseEntity.internalServerError().build();
+        }
+        return ResponseEntity.status(200).build();
     }
 
 }

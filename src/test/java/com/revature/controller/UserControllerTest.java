@@ -1,7 +1,6 @@
 package com.revature.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.revature.models.CartItem;
 import com.revature.models.User;
 import com.revature.models.UserDTO;
 import com.revature.service.UserService;
@@ -14,11 +13,8 @@ import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 
 import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.MvcResult;
 
 import javax.servlet.http.Cookie;
-import java.util.ArrayList;
-import java.util.List;
 
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
@@ -47,11 +43,11 @@ class UserControllerTest {
     @BeforeEach
     void init(){
         user = new User(1,
-                "flodev",
+                "WindowShopper",
                 "password",
-                "email@email.com",
-                "Eric",
-                "Florence",
+                "alex@sample.com",
+                "Alex",
+                "Anderson",
                 false,
                 null);
     }
@@ -67,8 +63,13 @@ class UserControllerTest {
     }
 
     @Test
-    void getCurrentUser() {
-
+    void getCurrentUser() throws Exception {
+        when(userService.getUser(1)).thenReturn(user);
+        mockMvc.perform(get("/user/current")
+                .contentType("application/json")
+                .cookie(cookie))
+            .andExpect(status().isOk())
+            .andExpect(content().json(objectMapper.writeValueAsString(user)));
     }
 
     @Test

@@ -13,10 +13,10 @@ import java.util.List;
 
 @Entity
 @Table(name = "user_tbl")
-@Data
+@Data //generates getters, setters, equals, hashcode, and toString
 @NoArgsConstructor
 @AllArgsConstructor
-public class User implements Serializable{
+public class User implements Serializable{ //implements Serializable for cookie conversion
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -38,6 +38,7 @@ public class User implements Serializable{
     @JsonManagedReference
     private List<CartItem> cart;
 
+    //constructor to convert UserDTO to User
     public User(UserDTO user){
         this.userName = user.getUserName();
         this.passWord = user.getPassWord();

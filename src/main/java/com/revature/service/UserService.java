@@ -18,7 +18,7 @@ public class UserService {
         return userDAO.findById(id).orElse(null);
     }
 
-    //insert or update a user's info, return new user info
+    //insert or update a user's info, return new user info or null if info violates constraints
     public User saveUser(User user){
         //if user doesn't exist yet, encrypt the password
         if(getUser(user.getId())==null){
@@ -33,6 +33,7 @@ public class UserService {
         }
     }
 
+    //find user with matching username, and verify password, returning whole user object
     public User validateAccount(String userName, String passWord) {
         //get user from db, if they exist
         User user = userDAO.findByUserName(userName);

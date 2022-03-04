@@ -51,20 +51,25 @@ public class UserController {
         return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
     }
 
+    //POST request to /user inserts new user into db
     @PostMapping
     public ResponseEntity<User> createUser(@RequestBody UserDTO userInfo){
         User savedUser = userService.saveUser(new User(userInfo));
+        //if user was successfully saved, return status code for created
         if(savedUser!=null){
             return ResponseEntity.status(HttpStatus.CREATED).build();
         }
+        //otherwise, return status code for bad request
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
     }
 
+    //POST request to /user/login returns user object with matching credentials and a cookie
     @PostMapping("/login")
     public ResponseEntity<User> loginRequest(@RequestBody UserDTO credentials) {
         // Checks if account information is valid
         User user = userService.validateAccount(credentials.getUserName(), credentials.getPassWord());
 
+        //if credentials are valid, convert to cookie to return in header and return user object in the body
         if (user != null){
             user.setPassWord("");
             ResponseCookie cookie = Cookies.buildResponseCookie(user);
@@ -72,19 +77,20 @@ public class UserController {
                     .header(HttpHeaders.SET_COOKIE, cookie.toString())
                     .body(user);
         }
+        //otherwise, return status code for bad request
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
 
     }
 
+    //POST request to /user/logout to invalidate the current cookie
     @PostMapping("/logout")
     public ResponseEntity<User> logoutUser() {
         //Grabs an Empty Cookie that expires immediately
         ResponseCookie emptyCookie = Cookies.nullResponseCookie();
-        // Returns 200 with Empty Cookie
+        // Returns status code for OK, with Empty Cookie
         return ResponseEntity.status(HttpStatus.OK)
                 .header(HttpHeaders.SET_COOKIE, emptyCookie.toString())
                 .build();
-
     }
 
 

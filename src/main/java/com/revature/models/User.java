@@ -9,9 +9,7 @@ import org.hibernate.annotations.OnDeleteAction;
 
 import javax.persistence.*;
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 
 @Entity
 @Table(name = "user_tbl")
@@ -20,20 +18,17 @@ import java.util.Objects;
 @AllArgsConstructor
 public class User implements Serializable{
 
-    private static final long serialVersionUID = -2902502762558688842L;
-
     @Id
-    //@EmbeddedId
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
-    @Column(unique = true)
+    @Column(unique = true, nullable = false)
     private String userName;
     private String passWord;
     @Column(unique = true)
     private String email;
     private String firstName;
     private String lastName;
-    private int roleId;
+    private boolean admin = false; //defaults to non-admin
     @OnDelete(action = OnDeleteAction.CASCADE)
     @OneToMany(
             mappedBy = "user",
@@ -42,6 +37,14 @@ public class User implements Serializable{
             orphanRemoval = true)
     @JsonManagedReference
     private List<CartItem> cart;
+
+    public User(UserDTO user){
+        this.userName = user.getUserName();
+        this.passWord = user.getPassWord();
+        this.email = user.getEmail();
+        this.firstName = user.getFirstName();
+        this.lastName = user.getLastName();
+    }
 
     public void addCartItem(CartItem item) {
         this.cart.add(item);
@@ -62,3 +65,4 @@ public class User implements Serializable{
         });
     }
 }
+

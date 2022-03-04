@@ -11,28 +11,35 @@ import java.util.Base64;
 
 public class Cookies {
 
+    //name value for the cookie
+    static final String COOKIENAME = "rebay_User";
+
+    //private constructor since util shouldn't be instantiated
+    private Cookies() {
+        throw new IllegalStateException("Utility class");
+    }
+
     // Converts User Into a cookie object
     public static ResponseCookie buildResponseCookie(User user){
 
         try{
-
             ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
             ObjectOutputStream objectOutputStream = new ObjectOutputStream(byteArrayOutputStream);
             objectOutputStream.writeObject(user);
             objectOutputStream.close();
 
-            return ResponseCookie.from("rebay_User",
+            return ResponseCookie.from(COOKIENAME,
                             Base64.getEncoder().encodeToString(byteArrayOutputStream.toByteArray()))
-                    .maxAge(7 * 24 * 60 * 60)
+                    .maxAge(7 * 24 * 60 * 60L)
                     .build();
-
+        //if conversion fails, return an empty cookie
         }catch (Exception e){
             e.printStackTrace();
+            return ResponseCookie.from(COOKIENAME,"").maxAge(0).build();
         }
-
-        return null;
     }
 
+    //returns user object derived from cookie value
     public static User isCookieValid(String cookie){
         if (cookie.isEmpty()) {
             return null;
@@ -57,6 +64,6 @@ public class Cookies {
 
     public static ResponseCookie nullResponseCookie(){
         // Returns Empty Cookie
-        return ResponseCookie.from("rebay_User",null).maxAge(0).build();
+        return ResponseCookie.from(COOKIENAME,"").maxAge(0).build();
     }
 }

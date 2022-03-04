@@ -3,6 +3,7 @@ package com.revature.controller;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.revature.models.CartItem;
 import com.revature.models.User;
+import com.revature.models.UserDTO;
 import com.revature.service.UserService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -41,24 +42,28 @@ class UserControllerTest {
     private ObjectMapper objectMapper;
 
     User user;
-    Cookie cookie = new Cookie("rebay_User", "rO0ABXNyABhjb20ucmV2YXR1cmUubW9kZWxzLlVzZXLXuD0dlhlxtgIACEkAAmlkSQAGcm9sZUlkTAAEY2FydHQAEExqYXZhL3V0aWwvTGlzdDtMAAVlbWFpbHQAEkxqYXZhL2xhbmcvU3RyaW5nO0wACWZpcnN0TmFtZXEAfgACTAAIbGFzdE5hbWVxAH4AAkwACHBhc3NXb3JkcQB+AAJMAAh1c2VyTmFtZXEAfgACeHAAAAABAAAAAXNyAC9vcmcuaGliZXJuYXRlLmNvbGxlY3Rpb24uaW50ZXJuYWwuUGVyc2lzdGVudEJhZ/5Xxa/aT6ZEAgACTAADYmFncQB+AAFMABJwcm92aWRlZENvbGxlY3Rpb250ABZMamF2YS91dGlsL0NvbGxlY3Rpb247eHIAPm9yZy5oaWJlcm5hdGUuY29sbGVjdGlvbi5pbnRlcm5hbC5BYnN0cmFjdFBlcnNpc3RlbnRDb2xsZWN0aW9uVxi3XYq6c1QCAAtaABthbGxvd0xvYWRPdXRzaWRlVHJhbnNhY3Rpb25JAApjYWNoZWRTaXplWgAFZGlydHlaAA5lbGVtZW50UmVtb3ZlZFoAC2luaXRpYWxpemVkWgANaXNUZW1wU2Vzc2lvbkwAA2tleXQAFkxqYXZhL2lvL1NlcmlhbGl6YWJsZTtMAAVvd25lcnQAEkxqYXZhL2xhbmcvT2JqZWN0O0wABHJvbGVxAH4AAkwAEnNlc3Npb25GYWN0b3J5VXVpZHEAfgACTAAOc3RvcmVkU25hcHNob3RxAH4AB3hwAP////8AAAAAc3IAEWphdmEubGFuZy5JbnRlZ2VyEuKgpPeBhzgCAAFJAAV2YWx1ZXhyABBqYXZhLmxhbmcuTnVtYmVyhqyVHQuU4IsCAAB4cAAAAAFxAH4AA3QAHWNvbS5yZXZhdHVyZS5tb2RlbHMuVXNlci5jYXJ0cHBwcHQAEGZsb2RldkBnbWFpbC5jb210AARFcmljdAAIRmxvcmVuY2V0ADwkMmEkMTAkMnloUENTSDhkQ0ZTMGxlQWlpOTFFZUZvRDEzZk9EVTZLZ2s1S0JjdUloY0x5Tml6Uk85THF0AAZmbG9kZXY");
+    Cookie cookie = new Cookie("rebay_User", "rO0ABXNyABhjb20ucmV2YXR1cmUubW9kZWxzLlVzZXJVNUuYZdq5SwIACFoABWFkbWluSQACaWRMAARjYXJ0dAAQTGphdmEvdXRpbC9MaXN0O0wABWVtYWlsdAASTGphdmEvbGFuZy9TdHJpbmc7TAAJZmlyc3ROYW1lcQB+AAJMAAhsYXN0TmFtZXEAfgACTAAIcGFzc1dvcmRxAH4AAkwACHVzZXJOYW1lcQB+AAJ4cAAAAAABc3IAL29yZy5oaWJlcm5hdGUuY29sbGVjdGlvbi5pbnRlcm5hbC5QZXJzaXN0ZW50QmFn/lfFr9pPpkQCAAJMAANiYWdxAH4AAUwAEnByb3ZpZGVkQ29sbGVjdGlvbnQAFkxqYXZhL3V0aWwvQ29sbGVjdGlvbjt4cgA+b3JnLmhpYmVybmF0ZS5jb2xsZWN0aW9uLmludGVybmFsLkFic3RyYWN0UGVyc2lzdGVudENvbGxlY3Rpb25XGLddirpzVAIAC1oAG2FsbG93TG9hZE91dHNpZGVUcmFuc2FjdGlvbkkACmNhY2hlZFNpemVaAAVkaXJ0eVoADmVsZW1lbnRSZW1vdmVkWgALaW5pdGlhbGl6ZWRaAA1pc1RlbXBTZXNzaW9uTAADa2V5dAAWTGphdmEvaW8vU2VyaWFsaXphYmxlO0wABW93bmVydAASTGphdmEvbGFuZy9PYmplY3Q7TAAEcm9sZXEAfgACTAASc2Vzc2lvbkZhY3RvcnlVdWlkcQB+AAJMAA5zdG9yZWRTbmFwc2hvdHEAfgAHeHAA/////wAAAABzcgARamF2YS5sYW5nLkludGVnZXIS4qCk94GHOAIAAUkABXZhbHVleHIAEGphdmEubGFuZy5OdW1iZXKGrJUdC5TgiwIAAHhwAAAAAXEAfgADdAAdY29tLnJldmF0dXJlLm1vZGVscy5Vc2VyLmNhcnRwcHBwdAAPYWxleEBzYW1wbGUuY29tdAAEQWxleHQACEFuZGVyc29udAAAdAANV2luZG93U2hvcHBlcg==");
 
     @BeforeEach
     void init(){
-//        Object List;
-//        Object CartItem;
-        List<CartItem> cart = new ArrayList<CartItem>();
-        user = new User(1, "flodev", "password", "email@email.com", "Eric", "Florence", 1, cart);
+        user = new User(1,
+                "flodev",
+                "password",
+                "email@email.com",
+                "Eric",
+                "Florence",
+                false,
+                null);
     }
 
     @Test
     void getUserById() throws Exception {
         when(userService.getUser(1)).thenReturn(user);
-                mockMvc.perform(get("/user/{id}", 1)
-                        .contentType("application/json")
-                        .cookie(cookie))
-                .andExpect(status().isOk())
-                .andExpect(content().json(objectMapper.writeValueAsString(user)));
+        mockMvc.perform(get("/user/{id}", 1)
+                .contentType("application/json")
+                .cookie(cookie))
+        .andExpect(status().isOk())
+        .andExpect(content().json(objectMapper.writeValueAsString(user)));
     }
 
     @Test
@@ -68,8 +73,18 @@ class UserControllerTest {
 
     @Test
     void createUser() throws Exception {
-        when(userService.saveUser(user)).thenReturn(true);
-        mockMvc.perform(post("/user").contentType("application/json").content(objectMapper.writeValueAsString(user))).andExpect(status().isCreated());
+        UserDTO creds = new UserDTO();
+        creds.setPassWord("password");
+        creds.setEmail(user.getEmail());
+        creds.setUserName(user.getUserName());
+        creds.setFirstName(user.getFirstName());
+        creds.setLastName(user.getLastName());
+        user.setId(0);
+        when(userService.saveUser(new User(creds))).thenReturn(user);
+        mockMvc.perform(post("/user")
+                .contentType("application/json")
+                .content(objectMapper.writeValueAsString(user)))
+            .andExpect(status().isCreated());
 
         ArgumentCaptor<User> userCaptor = ArgumentCaptor.forClass(User.class);
         verify(userService).saveUser(userCaptor.capture());
@@ -80,20 +95,16 @@ class UserControllerTest {
     @Test
     void loginRequest() throws Exception {
         when(userService.validateAccount(user.getUserName(), user.getPassWord())).thenReturn(user);
-        MvcResult result = mockMvc.perform(post("/user/login")
-                        .contentType("application/json")
-                        .content(objectMapper.writeValueAsString(user)))
-                .andExpect(status().isOk())
-                .andReturn();
-
-        String content = result.getResponse().getContentAsString();
-        assertThat(content).isEqualTo(objectMapper.writeValueAsString(user));
+        mockMvc.perform(post("/user/login")
+                .contentType("application/json")
+                .content(objectMapper.writeValueAsString(user)))
+            .andExpect(status().isOk())
+            .andExpect(content().json(objectMapper.writeValueAsString(user)));
     }
 
     @Test
     void logoutUser() throws Exception {
         mockMvc.perform(post("/user/logout").contentType("application/json"))
-                .andExpect(status().isOk());
-
+            .andExpect(status().isOk());
     }
 }

@@ -15,7 +15,7 @@ import java.util.ArrayList;
 import java.util.Base64;
 import java.util.List;
 
-@CrossOrigin()
+@CrossOrigin(origins = {"http://localhost:4200", "http://d1fpc6erw3y64i.cloudfront.net"}, allowCredentials = "true")
 @RestController
 @RequestMapping("/products")
 public class ProductController {
@@ -50,10 +50,18 @@ public class ProductController {
     public ResponseEntity<List<Product>> getFeatured(){
         List<Product> featuredList = productService.getFeaturedProducts();
         if(featuredList != null){
-            logger.info("Featured products have been found!");
             return ResponseEntity.status(200).body(featuredList);
         }else{
-            logger.info("Featured products have been requested but don't exist!");
+            return ResponseEntity.status(204).build();
+        }
+    }
+
+    @GetMapping("/clearance")
+    public ResponseEntity<List<Product>> getClearance(){
+        List<Product> clearanceList = productService.getClearanceProducts();
+        if(clearanceList != null) {
+            return ResponseEntity.status(200).body(clearanceList);
+        }else{
             return ResponseEntity.status(204).build();
         }
     }

@@ -4,15 +4,12 @@ import com.revature.models.CartItem;
 import com.revature.models.User;
 import com.revature.repo.UserDAO;
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import java.util.ArrayList;
 import java.util.Optional;
@@ -20,11 +17,10 @@ import java.util.Optional;
 import static org.junit.jupiter.api.Assertions.*;
 
 @ExtendWith(MockitoExtension.class)
-//@SpringBootTest
 class UserServiceTest {
     @Mock
     private UserDAO userDAO;
-//            = Mockito.mock(UserDAO.class);
+
     @InjectMocks
     private UserService userService;
 
@@ -40,24 +36,37 @@ class UserServiceTest {
                 "me@me.com",
                 "Elias",
                 "Calagiu",
-                1,
+                false,
                 new ArrayList<CartItem>()
         );
 
     }
 
     @Test
-    void saveUserSuccess() {
-        boolean savedUser= userService.saveUser(testUser);
-        assertTrue(savedUser);
+    void saveUpdatedUserSuccess() {
+        User updatedTestUser = testUser;
+        updatedTestUser.setUserName("EC81");
+        Mockito.when(userDAO.findById(updatedTestUser.getId())).thenReturn(Optional.ofNullable(testUser));
+        Mockito.when(userDAO.save(updatedTestUser)).thenReturn(updatedTestUser);
+
+        assertEquals(updatedTestUser, userService.saveUser(updatedTestUser));
     }
 
+    @Test
+    void saveNewUserSuccess() {
+        User newUser = testUser;
+        newUser.setPassWord("password");
+        Mockito.when(userDAO.findById(newUser.getId())).thenReturn(Optional.empty());
+        Mockito.when(userDAO.save(newUser)).thenReturn(newUser);
+
+        assertEquals(testUser, userService.saveUser(newUser));
+    }
 
     @Test
     void getUserSuccess() {
         Mockito.when(userDAO.findById(testUser.getId())).thenReturn(Optional.ofNullable(testUser));
-        User user = userService.getUser(testUser.getId());
-        assertEquals(user, testUser);
+
+        assertEquals(testUser, userService.getUser(testUser.getId()));
     }
 
 
@@ -65,35 +74,37 @@ class UserServiceTest {
     @Test
     void validateAccountSuccess() {
         Mockito.when(userDAO.findByUserName(testUser.getUserName())).thenReturn(testUser);
-        User user = userService.validateAccount(testUser.getUserName(), "password");
-        assertEquals(user, testUser);
+
+        assertEquals(testUser, userService.validateAccount(testUser.getUserName(), "password"));
     }
 
     @Test
     void getUserFail(){
-        Mockito.when(userDAO.findById(-1)).thenReturn(Optional.ofNullable(null));
-        User user = userService.getUser(-1);
-        assertNull(user);
+        Mockito.when(userDAO.findById(-1)).thenReturn(Optional.empty());
+
+        assertNull(userService.getUser(-1));
     }
 
     @Test
     void validateFailUsername(){
         Mockito.when(userDAO.findByUserName("blah")).thenReturn(null);
-        User user = userService.validateAccount("blah", "password");
-        assertNull(user);
+
+        assertNull(userService.validateAccount("blah", "password"));
     }
 
     @Test
     void validateFailPassword(){
         Mockito.when(userDAO.findByUserName(testUser.getUserName())).thenReturn(testUser);
-        User user = userService.validateAccount(testUser.getUserName(), "assword");
-        assertNull(user);
+
+        assertNull(userService.validateAccount(testUser.getUserName(), "assword"));
     }
 
     @Test
-    void saveUserFail() {
-        boolean savedUser= userService.saveUser(null);
-        assertFalse(savedUser);
+    void saveUpdatedUserFail() {
+        Mockito.when(userDAO.findById(testUser.getId())).thenReturn(Optional.ofNullable(testUser));
+        Mockito.when(userDAO.save(testUser)).thenThrow(new RuntimeException());
+
+        assertNull(userService.saveUser(testUser));
     }
 
 }

@@ -81,6 +81,9 @@ public ResponseEntity checkout(@PathVariable("userId") int userId) {
         catch(CartException e){
             return ResponseEntity.status(410).body(e.getNotInStock());
         }
+        catch (RuntimeException e){
+            return ResponseEntity.internalServerError().build();
+        }
         return ResponseEntity.status(200).build();
     }
 

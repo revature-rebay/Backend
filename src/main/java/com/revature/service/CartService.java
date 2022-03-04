@@ -65,7 +65,7 @@ public class CartService {
 
         CartItem cartItem = new CartItem(item.quantity, product, user);
 
-        if(item.quantity >99 || item.quantity<0){
+        if(item.quantity > product.getCurrentStock() || item.quantity<0){
             System.out.println("Invalid Quantity.");
             return cartItems;
         }
@@ -77,21 +77,29 @@ public class CartService {
     }
 
     public List<CartItem> updateProductQuantity(CartDTO item){
-
-        if(item.productId < 1 || item.userId < 1 || item.quantity > 99 || item.quantity < 0){
-            System.out.println("Error, invalid input in update Quantity.");
+        Optional<User> userOptional = userDAO.findById(item.userId);
+        if(!userOptional.isPresent()){
             return new ArrayList<>();
+        }
+        User user = userOptional.get();
+
+        Optional<Product> productOptional = productDAO.findById(item.productId);
+        if(!productOptional.isPresent()){
+            return user.getCart();
+        }
+        Product product = productOptional.get();
+
+
+        if(item.productId < 1 || item.userId < 1 || item.quantity > product.getCurrentStock() || item.quantity < 0){
+            System.out.println("Error, invalid input in update Quantity.");
+            return user.getCart();
         }
         if(item.quantity == 0)
             deleteFromCart(item);
 
-        Optional<User> userOptional = userDAO.findById(item.userId);
 
-        if(!userOptional.isPresent()){
-            return new ArrayList<>();
-        }
 
-        User user = userOptional.get();
+
         user.updateCartItem(item);
         userDAO.save(user);
         return(user.getCart());
@@ -147,7 +155,9 @@ public class CartService {
         {
             Optional<Product> productOptional = productDAO.findById(c.getProduct().getProductId());
             if(!productOptional.isPresent()){
-                notInStock.add(c);
+                //cart contains a product that does not exist in db
+                //should probably never happen
+                throw new RuntimeException();
             }
             else if(productOptional.get().getCurrentStock() >= c.getQuantity() ) {
                 Product product = productOptional.get();

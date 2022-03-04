@@ -9,7 +9,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.io.File;
+import java.nio.file.Files;
 import java.util.ArrayList;
+import java.util.Base64;
 import java.util.List;
 
 @CrossOrigin(origins = {"http://localhost:4200", "http://d1fpc6erw3y64i.cloudfront.net"}, allowCredentials = "true")
@@ -27,7 +30,9 @@ public class ProductController {
 
     @GetMapping
     public ResponseEntity<List<Product>> getAllProducts(){
-        return ResponseEntity.status(200).body(productService.getAllProducts());
+        List<Product> products = productService.getAllProducts();
+        System.out.println("Here's the products currently in the db: " + products);
+        return ResponseEntity.status(200).body(products);
     }
 
     @GetMapping("/{id}")
@@ -91,4 +96,26 @@ public class ProductController {
             return ResponseEntity.status(400).body(wasUpdated);
         }
     }
+
+//    @GetMapping("/imgTest")
+//    public ResponseEntity<String> imageTest() {
+//        System.out.println("Called the image test in backend");
+//        File file = new File("C:\\Users\\Bobby\\Documents\\Coding\\Revature_Projects\\Swag_photos\\swag_mug.png");
+//
+//        byte[] fileContent;
+//
+//        try {
+//            fileContent = Files.readAllBytes(file.toPath());
+//            String decodedString = new String(fileContent);
+//            String byteString = Base64.getEncoder().encodeToString(fileContent);
+//            System.out.println("Encoded string: " + byteString.substring(0, 100));
+//            System.out.println("Decoded string: " + decodedString.substring(0, 100));
+//
+//
+//            return ResponseEntity.status(201).body(byteString);
+//        } catch (Exception e) {
+//            System.out.println(e.getMessage());
+//            return ResponseEntity.status(400).build();
+//        }
+//    }
 }

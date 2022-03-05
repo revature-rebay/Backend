@@ -79,7 +79,7 @@ public class CartController {
             }
         }
         catch(CartException e){
-            return ResponseEntity.status(410).body(e.getNotInStock());
+            return ResponseEntity.status(206).body(e.getNotInStock());
         }
         catch (RuntimeException e){
             return ResponseEntity.internalServerError().build();

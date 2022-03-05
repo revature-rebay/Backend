@@ -5,6 +5,7 @@ import com.revature.repo.ProductDAO;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.ScopeMetadata;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -35,7 +36,7 @@ public class ProductService {
     }
 
     public Product getProduct(int productId) {
-//        if (productDAO.existsById(productId)) {
+        if (productDAO.existsById(productId)) {
             Optional<Product> product = productDAO.findById(productId);
             if(product != null && product.isPresent()) {
                 logger.info("The product was found and returned");
@@ -43,7 +44,7 @@ public class ProductService {
             }else {
                 logger.error("The product exists, but there was an issue retrieving it");
             }
-//        }
+        }
         logger.error("There aren't any products associated with the given ID");
         return null;
     }

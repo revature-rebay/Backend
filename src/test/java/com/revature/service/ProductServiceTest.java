@@ -65,8 +65,8 @@ public class ProductServiceTest {
 
     @Test
     void addProduct() {
-        Product testProduct = new Product(1, 33.3, 0, false, 0, any(byte[].class));
-        Product testProduct2 = new Product(3, 33.3, 0, false, 0, new byte[7]);
+        Product testProduct = new Product(1, 33.3, 0, false, 10, "black hat", "black hat");
+        Product testProduct2 = new Product(3, 33.3, 0, false, 10, "hat", "hat");
         boolean successValue1 = testInstance.addProduct(testProduct);
         testInstance.addProduct(testProduct);
         boolean successValue2 = testInstance.addProduct(testProduct2);
@@ -86,8 +86,8 @@ public class ProductServiceTest {
 
     @Test
     void updateProduct() {
-        Product testProduct = new Product(3, 33.3, 0, false, 0, new byte[7]);
-        Product testProduct2 = new Product(-1, 33.3, 0, false, 0, any(byte[].class));
+        Product testProduct = new Product(3, 33.3, 0, false, 0, "black hat", "black hat");
+        Product testProduct2 = new Product(-1, 33.3, 0, false, 0, "grey shirt", "grey shirt");
         boolean successValue1 = testInstance.updateProduct(testProduct);
 
         boolean successValue2 = testInstance.updateProduct(testProduct2);

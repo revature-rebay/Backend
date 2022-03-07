@@ -222,7 +222,7 @@ public class CartServiceTest {
     @Test
     void checkoutCartFailureOutOfStock(){
         CartItem item3 = new CartItem(3,10, product3, user);
-        user.addCartItem(item3);
+        user.getCart().add(item3);
         assertThrows(CartException.class, () -> {
             service.checkout(user.getId());
         });
@@ -246,7 +246,7 @@ public class CartServiceTest {
     @Test
     void checkoutCartFailureBadProduct(){
         CartItem item3 = new CartItem(92, 1, new Product(92,1.0,0,false,100,"product","product desc"), user);
-        user.addCartItem(item3);
+        user.getCart().add(item3);
 
         assertThrows(RuntimeException.class, ()->{
            service.checkout(user.getId());

@@ -18,7 +18,7 @@ import java.util.List;
 @AllArgsConstructor
 public class User implements Serializable{ //implements Serializable for cookie conversion
 
-    private static final long serialVersionUID = -6139896784905484619L;
+    private static final long serialVersionUID = 6139896784905484619L;
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

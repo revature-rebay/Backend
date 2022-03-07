@@ -1,4 +1,4 @@
-//This controller handels all HTTP requests from the CartService on the FrontEnd
+//This controller handles all HTTP requests from the CartService on the FrontEnd
 //Some references connect to the UserService on the backend as well.
 
 

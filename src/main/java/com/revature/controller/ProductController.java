@@ -35,7 +35,7 @@ public class ProductController {
         return ResponseEntity.status(200).body(products);
     }
 
-    @GetMapping("/{id}")
+    @GetMapping("/get/{id}")
     public ResponseEntity<Product> getProductById(@PathVariable("id") int id){
         Product product = productService.getProduct(id);
         if(product != null){
@@ -66,7 +66,7 @@ public class ProductController {
         }
     }
 
-    @PostMapping
+    @PostMapping("/add")
     public ResponseEntity<Boolean> addProduct(@RequestBody Product product){
         boolean wasSaved = productService.addProduct(product);
 
@@ -77,7 +77,7 @@ public class ProductController {
         }
     }
 
-    @DeleteMapping("/{id}")
+    @DeleteMapping("/remove/{id}")
     public ResponseEntity<Boolean> deleteProduct(@PathVariable("id") int id){
         boolean wasDeleted = productService.removeProduct(id);
         if(wasDeleted){
@@ -86,7 +86,7 @@ public class ProductController {
         return ResponseEntity.status(400).body(wasDeleted);
     }
 
-    @PutMapping
+    @PutMapping("/update")
     public ResponseEntity<Boolean> updateProduct(@RequestBody Product product){
         System.out.println(product);
         boolean wasUpdated = productService.updateProduct(product);

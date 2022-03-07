@@ -24,6 +24,8 @@ public class Project3backendApplication {
 
 	}
 
+	//This bean was used for local testing, it manually allowed all cors connections from localhost:4200
+
 //	@Bean
 //	public CorsFilter corsFilter() {
 //		final UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();

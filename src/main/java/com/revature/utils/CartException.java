@@ -1,3 +1,5 @@
+//This custom exception is used to resolve the transaction in the CartService,
+//while also returning the list of items that are not in stock.
 package com.revature.utils;
 import com.revature.models.CartItem;
 import java.util.ArrayList;

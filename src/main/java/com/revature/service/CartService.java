@@ -36,12 +36,23 @@ public class CartService {
     }
 
 
+    /*
+    * Returns a list of CartItem for the user with the given userId. Returns an empty list if no such user exists
+    * @param userId the id of the user whose cart we want
+    * @return the list of cartItems a user has in their cart
+    * */
     public List<CartItem> getCart(int userId){
         Optional<User> user = userDAO.findById(userId);
         if(user.isPresent()) return user.get().getCart();
         return new ArrayList<>();
     }
 
+    /*
+     * Adds a new CartItem to a users cart and returns a list of a users updated cart
+     * @param item The CartDTO object with a userId, productId, and quantity. The userId is the id of the user whose cart we want to add the item to.
+     * The productId is the id of the product we want to add to the users cart. The quantity is the amount of this product the user wants in their cart.
+     * @return the updated list of cartItems a user has in their cart
+     * */
     public List<CartItem> addToCart(CartDTO item){
 
         //User
@@ -82,7 +93,13 @@ public class CartService {
     }
 
 
-    //This only adjusts quantity of existing objects in the cart, and calls delete if 0
+
+    /*
+     * Updates the quantity of a CartItem in a users cart. This only adjusts quantity of existing objects in the cart, and calls delete if 0.
+     * @param item The CartDTO object with a userId, productId, and quantity. The userId is the id of the user whose cart we want to add the item to.
+     * The productId is the id of the product we want to add to the users cart. The quantity is the amount of this product the user wants in their cart.
+     * @return the updated list of cartItems a user has in their cart
+     * */
     public List<CartItem> updateProductQuantity(CartDTO item){
         Optional<User> userOptional = userDAO.findById(item.userId);
         if(!userOptional.isPresent()){
@@ -115,7 +132,13 @@ public class CartService {
         return(user.getCart());
     }
 
-    //We use userDAO.save in order to tell Spring to push to the DB.
+
+    /*
+     * Removes a CartItem in a users cart. We use userDAO.save in order to tell Spring to push to the DB. This is a transaction, so we can undo if an exception is throw.
+     * @param item The CartDTO object with a userId, productId, and quantity. The userId is the id of the user whose cart we want to add the item to.
+     * The productId is the id of the product we want to add to the users cart. The quantity is the amount of this product the user wants in their cart.
+     * @return the updated list of cartItems a user has in their cart
+     * */
     @Transactional
     public List<CartItem> deleteFromCart(CartDTO item){
         //Get the User and cartItems List to modify
@@ -138,6 +161,12 @@ public class CartService {
         return user.getCart();
     }
 
+
+    /*
+     * Removes all CartItems from a users cart, making it empty.
+     * @param userId the id of the user whose cart we want to clear
+     * @return true when successful false if a user with the given userId does not exist
+     * */
     public boolean clearCart(int userId){
         Optional<User> userOptional = userDAO.findById(userId);
         if(!userOptional.isPresent()){
@@ -150,8 +179,16 @@ public class CartService {
         return true;
     }
 
-    //This is a transaction so we can undo if any objects fail.
-    //It returns a custom exception so we can store the array and throw the exception.
+
+    /*
+     * Checks out all Items from a user's cart, clearing the cart if successful. It also decrements each product's currentStock count when successful. It returns a custom
+     * exception so we can store the array and throw the exception. This is a transaction, so we can undo if an exception is throw.
+     * @param userId the id of the user whose cart we want to clear
+     * @return an empty arraylist when successful. If a user with the given userId does not exist returns null. If a user has no items in their cart returns null.
+     * @throws RuntimeException when a user has a product in their cart with a productId that does not exist in the DB
+     * @throws CartException when a CartItem in the users cart has a quantity greater than the currentStock of that product. The list of out of stock items is given to the exception and can be
+     * retrieved through the exceptions getNotInStock() method.
+     * */
     @Transactional
     public List<CartItem> checkout(int userId) {
         Optional<User> userOptional = userDAO.findById(userId);

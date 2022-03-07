@@ -34,7 +34,7 @@ public class User implements Serializable{ //implements Serializable for cookie 
             mappedBy = "user",
             fetch = FetchType.LAZY,
             cascade = CascadeType.ALL,
-            orphanRemoval = true)
+            orphanRemoval = true) //keeps list in synchronization with database cart_item
     @JsonManagedReference
     private List<CartItem> cart;
 
@@ -47,15 +47,19 @@ public class User implements Serializable{ //implements Serializable for cookie 
         this.lastName = user.getLastName();
     }
 
+    //used for synchronization with cart
     public void addCartItem(CartItem item) {
         this.cart.add(item);
     }
+    //used for synchronization with cart
     public void removeCartItem(CartItem item) {
         this.cart.remove(item);
     }
+    //used for synchronization with cart
     public void clearCart(){
         this.cart.clear();
     }
+    //used for synchronization with cart
     public void updateCartItem(CartDTO item){
         this.cart.replaceAll(cartItem -> {
             if(cartItem.getProduct().getProductId() == item.productId)

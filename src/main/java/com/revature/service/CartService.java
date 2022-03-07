@@ -88,7 +88,8 @@ public class CartService {
         }
 
         //adding
-        user.addCartItem(cartItem);
+        user.getCart().add(cartItem);
+//        user.addCartItem(cartItem);
         userDAO.save(user);
         return user.getCart();
     }
@@ -128,7 +129,14 @@ public class CartService {
         }
 
 
-        user.updateCartItem(item);
+        //user.updateCartItem(item);
+        user.getCart().replaceAll(cartItem -> {
+            if(cartItem.getProduct().getProductId() == item.productId)
+            {
+                cartItem.setQuantity(item.quantity);
+            }
+            return cartItem;
+        });
         userDAO.save(user);
         return(user.getCart());
     }
@@ -157,7 +165,9 @@ public class CartService {
         }
         Product product = productOptional.get();
         CartItem cartItem = new CartItem(0, product, user);
-        user.removeCartItem(cartItem);
+//        user.removeCartItem(cartItem);
+        user.getCart().remove(cartItem);
+
         userDAO.save(user);
         return user.getCart();
     }
@@ -175,7 +185,8 @@ public class CartService {
         }
 
         User user = userOptional.get();
-        user.clearCart();
+        //user.clearCart();
+        user.getCart().clear();
         userDAO.save(user);
         return true;
     }

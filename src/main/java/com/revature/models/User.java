@@ -18,6 +18,8 @@ import java.util.List;
 @AllArgsConstructor
 public class User implements Serializable{ //implements Serializable for cookie conversion
 
+    private static final long serialVersionUID = -6139896784905484619L;
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
@@ -47,27 +49,27 @@ public class User implements Serializable{ //implements Serializable for cookie 
         this.lastName = user.getLastName();
     }
 
-    //used for synchronization with cart
-    public void addCartItem(CartItem item) {
-        this.cart.add(item);
-    }
-    //used for synchronization with cart
-    public void removeCartItem(CartItem item) {
-        this.cart.remove(item);
-    }
-    //used for synchronization with cart
-    public void clearCart(){
-        this.cart.clear();
-    }
-    //used for synchronization with cart
-    public void updateCartItem(CartDTO item){
-        this.cart.replaceAll(cartItem -> {
-            if(cartItem.getProduct().getProductId() == item.productId)
-            {
-                cartItem.setQuantity(item.quantity);
-            }
-            return cartItem;
-        });
-    }
+//    //used for synchronization with cart
+//    public void addCartItem(CartItem item) {
+//        this.cart.add(item);
+//    }
+//    //used for synchronization with cart
+//    public void removeCartItem(CartItem item) {
+//        this.cart.remove(item);
+//    }
+//    //used for synchronization with cart
+//    public void clearCart(){
+//        this.cart.clear();
+//    }
+//    //used for synchronization with cart
+//    public void updateCartItem(CartDTO item){
+//        this.cart.replaceAll(cartItem -> {
+//            if(cartItem.getProduct().getProductId() == item.productId)
+//            {
+//                cartItem.setQuantity(item.quantity);
+//            }
+//            return cartItem;
+//        });
+//    }
 }
 

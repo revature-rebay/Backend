@@ -1,3 +1,8 @@
+//This Service handles connections to the Cart DB objects
+//This also references the UserService for some functionality
+//We return an up to date cart for the frontend, as well as invalid
+//Items in the checkout method.
+
 package com.revature.service;
 
 import com.revature.models.CartDTO;
@@ -76,6 +81,8 @@ public class CartService {
         return user.getCart();
     }
 
+
+    //This only adjusts quantity of existing objects in the cart, and calls delete if 0
     public List<CartItem> updateProductQuantity(CartDTO item){
         Optional<User> userOptional = userDAO.findById(item.userId);
         if(!userOptional.isPresent()){
@@ -108,6 +115,7 @@ public class CartService {
         return(user.getCart());
     }
 
+    //We use userDAO.save in order to tell Spring to push to the DB.
     @Transactional
     public List<CartItem> deleteFromCart(CartDTO item){
         //Get the User and cartItems List to modify
@@ -142,6 +150,8 @@ public class CartService {
         return true;
     }
 
+    //This is a transaction so we can undo if any objects fail.
+    //It returns a custom exception so we can store the array and throw the exception.
     @Transactional
     public List<CartItem> checkout(int userId) {
         Optional<User> userOptional = userDAO.findById(userId);

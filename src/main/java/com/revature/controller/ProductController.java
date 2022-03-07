@@ -15,7 +15,7 @@ import java.util.ArrayList;
 import java.util.Base64;
 import java.util.List;
 
-@CrossOrigin(origins = {"http://localhost:4200", "http://d1fpc6erw3y64i.cloudfront.net"}, allowCredentials = "true")
+@CrossOrigin(origins = {"http://localhost:4200", "http://d1fpc6erw3y64i.cloudfront.net", "http://revature-rebay.s3-website-us-east-1.amazonaws.com"}, allowCredentials = "true")
 @RestController
 @RequestMapping("/products")
 public class ProductController {

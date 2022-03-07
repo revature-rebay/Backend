@@ -18,7 +18,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/cart")
-@CrossOrigin(value ={"http://localhost:4200", "http://d1fpc6erw3y64i.cloudfront.net"}, allowCredentials = "true")
+@CrossOrigin(value ={"http://localhost:4200", "http://d1fpc6erw3y64i.cloudfront.net", "http://revature-rebay.s3-website-us-east-1.amazonaws.com"}, allowCredentials = "true")
 public class CartController {
     private CartService service;
 

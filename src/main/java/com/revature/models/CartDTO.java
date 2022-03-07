@@ -1,5 +1,6 @@
 package com.revature.models;
 
+//a data transfer object, will not persist in database
 public class CartDTO {
     public int userId;
     public int productId;

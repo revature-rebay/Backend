@@ -5,15 +5,16 @@ import com.fasterxml.jackson.annotation.JsonBackReference;
 import javax.persistence.*;
 import java.util.Objects;
 
+//contains fields and methods for a CartItem object
 @Entity
 @Table(name = "cart_item")
 public class CartItem {
-
+    //primary key
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "cart_item_id")
     private int id;
-
+    //quantity here is the amount of the item in a customer's cart, this is not the current stock of the item
     private int quantity;
 
     @ManyToOne

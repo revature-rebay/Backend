@@ -1,7 +1,8 @@
-//This Service handles connections to the Cart DB objects
-//This also references the UserService for some functionality
-//We return an up to date cart for the frontend, as well as invalid
-//Items in the checkout method.
+/* This Service handles connections to the Cart DB objects
+* This also references the UserService for some functionality
+* We return an up to date cart for the frontend, as well as invalid
+* Items in the checkout method.
+* */
 
 package com.revature.service;
 
